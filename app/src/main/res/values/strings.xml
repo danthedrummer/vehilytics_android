@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Vehilytics</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="content_description_app_logo">Application Logo</string>
+    <string name="register">REGISTER</string>
+    <string name="register_now">Not a user? Sign up now.</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="login_prompt">Already register? Login.</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.ddowney.vehilytics
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
 import com.ddowney.vehilytics.models.UserRegistration
 import com.ddowney.vehilytics.services.ServiceManager
+import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,14 +20,15 @@ class LoginActivity : AppCompatActivity() {
         private const val LOG_TAG = "LoginActivity"
     }
 
-    var token: String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        login()
-//        register()
+        register_prompt.setOnClickListener {
+            val intent = Intent(baseContext, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun login() {
@@ -37,15 +40,13 @@ class LoginActivity : AppCompatActivity() {
 
                     override fun onResponse(call: Call<LoginResponse>?, response: Response<LoginResponse>?) {
                         Log.d(LOG_TAG, "dan user token = ${response?.body()?.token}")
-                        token = response?.body()?.token!!
-                        validate()
                     }
 
                 })
     }
 
     private fun logout() {
-        ServiceManager.authenticationService.logout("dan@example.com", token)
+        ServiceManager.authenticationService.logout("dan@example.com", "some_token")
                 .enqueue(object: Callback<Void>{
                     override fun onFailure(call: Call<Void>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
@@ -77,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun validate() {
-        ServiceManager.authenticationService.validate("dan@example.com", token)
+        ServiceManager.authenticationService.validate("dan@example.com", "some_token")
                 .enqueue(object: Callback<Void> {
                     override fun onFailure(call: Call<Void>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ddowney.vehilytics.LoginActivity"
+    tools:context="com.ddowney.vehilytics.RegisterActivity"
     android:background="@color/colorPrimary">
 
     <ImageView
@@ -30,7 +30,7 @@
         android:textSize="32sp"
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="6dp"/>
-    
+
     <FrameLayout
         android:id="@+id/email_wrapper"
         android:layout_width="match_parent"
@@ -62,27 +62,44 @@
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
+            style="@style/FormTextField" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/password_confirm_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/password_wrapper"
+        style="@style/FormTextFieldWrapper">
+
+        <EditText
+            android:id="@+id/password_confirm_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confirm_password_hint"
+            android:inputType="textPassword"
             style="@style/FormTextField"/>
 
     </FrameLayout>
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="@string/login"
-        android:layout_below="@id/password_wrapper"
+        android:text="@string/register"
+        android:layout_below="@id/password_confirm_wrapper"
         android:layout_marginTop="16dp"
         style="@style/LoginButton"/>
 
     <TextView
-        android:id="@+id/register_prompt"
+        android:id="@+id/login_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register_now"
+        android:text="@string/login_prompt"
         android:textSize="16sp"
         android:textColor="@color/colorIcons"
-        android:layout_below="@id/login_button"
+        android:layout_below="@id/register_button"
         android:layout_marginTop="32dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"/>
