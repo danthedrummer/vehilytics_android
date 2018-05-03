@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/colorIcons"
+        android:elevation="4dp"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        app:popupTheme="@style/PopupMenuStyle"
+        app:title="Home"/>
+
+    <RelativeLayout
+        android:id="@+id/vehicle_button"
+        android:layout_below="@+id/main_toolbar"
+        android:layout_marginTop="30dp"
+        style="@style/MainButton">
+        <TextView
+            android:id="@+id/vehicle_button_title"
+            android:text="@string/vehicle"
+            style="@style/MainButtonTitle"/>
+        <TextView
+            android:text="@string/vehicle_button_subtext"
+            android:layout_below="@+id/vehicle_button_title"
+            style="@style/MainButtonSubtext"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/preferences_button"
+        android:layout_below="@+id/vehicle_button"
+        android:layout_marginTop="20dp"
+        style="@style/MainButton">
+        <TextView
+            android:id="@+id/preferences_button_title"
+            android:text="@string/preferences"
+            style="@style/MainButtonTitle"/>
+        <TextView
+            android:text="@string/preferences_button_subtext"
+            android:layout_below="@+id/preferences_button_title"
+            style="@style/MainButtonSubtext"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/reminders_button"
+        android:layout_below="@+id/preferences_button"
+        android:layout_marginTop="20dp"
+        style="@style/MainButton">
+        <TextView
+            android:id="@+id/reminders_button_title"
+            android:text="@string/reminders"
+            style="@style/MainButtonTitle"/>
+        <TextView
+            android:text="@string/reminders_button_subtext"
+            android:layout_below="@+id/reminders_button_title"
+            style="@style/MainButtonSubtext"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/device_button"
+        android:layout_below="@+id/reminders_button"
+        android:layout_marginTop="20dp"
+        style="@style/MainButton">
+        <TextView
+            android:id="@+id/device_button_title"
+            android:text="@string/device"
+            style="@style/MainButtonTitle"/>
+        <TextView
+            android:text="@string/device_button_subtext"
+            android:layout_below="@+id/device_button_title"
+            style="@style/MainButtonSubtext"/>
+    </RelativeLayout>
+
+</RelativeLayout>

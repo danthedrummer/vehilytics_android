@@ -12,4 +12,13 @@
     <string name="blank_fields_error">None of the fields can be blank</string>
     <string name="password_mismatch_error">Password and Confirm Password must match</string>
     <string name="email_in_use_error">Email is already registered</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="preferences">Preferences</string>
+    <string name="reminders">Reminders</string>
+    <string name="device">Device</string>
+    <string name="vehicle_button_subtext">View the status of your vehicle</string>
+    <string name="preferences_button_subtext">Manage the sensors reported</string>
+    <string name="reminders_button_subtext">Manage your reminders</string>
+    <string name="device_button_subtext">Manage your device</string>
 </resources>

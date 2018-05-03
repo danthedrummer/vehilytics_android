@@ -61,6 +61,8 @@ class LoginActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         if (response.code() == 201) {
                             // TODO: Store token
+                            User.email = response.body()?.email!!
+                            User.token = response.body()?.token!!
                             val intent = Intent(baseContext, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -69,23 +71,6 @@ class LoginActivity : AppCompatActivity() {
                             error_text.text = getString(R.string.email_or_password_invalid)
                             error_text.visibility = View.VISIBLE
                             login_button.isClickable = true
-                        }
-                    }
-                })
-    }
-
-    private fun logout() {
-        ServiceManager.authenticationService.logout("dan@example.com", "some_token")
-                .enqueue(object: Callback<Void>{
-                    override fun onFailure(call: Call<Void>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
-                    override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
-                        if (response?.code() == 200) {
-                            Log.d(LOG_TAG, "Successfully logged out")
-                        } else {
-                            Log.e(LOG_TAG, "Problem logging out, code: ${response?.code()}")
                         }
                     }
                 })
