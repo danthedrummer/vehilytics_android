@@ -8,4 +8,8 @@
     <string name="register_now">Not a user? Sign up now.</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="login_prompt">Already register? Login.</string>
+    <string name="email_or_password_invalid">Email or Password invalid.</string>
+    <string name="blank_fields_error">None of the fields can be blank</string>
+    <string name="password_mismatch_error">Password and Confirm Password must match</string>
+    <string name="email_in_use_error">Email is already registered</string>
 </resources>

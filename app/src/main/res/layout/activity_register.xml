@@ -31,6 +31,18 @@
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="6dp"/>
 
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/colorErrorLight"
+        android:layout_above="@id/email_wrapper"
+        android:layout_marginBottom="-16dp"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:text="@string/blank_fields_error"/>
+
     <FrameLayout
         android:id="@+id/email_wrapper"
         android:layout_width="match_parent"

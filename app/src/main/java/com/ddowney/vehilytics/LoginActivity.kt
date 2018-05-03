@@ -1,9 +1,11 @@
 package com.ddowney.vehilytics
 
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.ddowney.vehilytics.models.LoginResponse
 import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
@@ -27,21 +29,48 @@ class LoginActivity : AppCompatActivity() {
         register_prompt.setOnClickListener {
             val intent = Intent(baseContext, RegisterActivity::class.java)
             startActivity(intent)
+            finish()
+        }
+
+        login_button.setOnClickListener {
+            error_text.visibility = View.GONE
+            it.isClickable = false
+            val email = email_field.text.toString()
+            val password = password_field.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                error_text.text = getString(R.string.blank_fields_error)
+                error_text.visibility = View.VISIBLE
+                it.isClickable = true
+                return@setOnClickListener
+            }
+
+            login(email, password)
         }
 
     }
 
-    private fun login() {
-        ServiceManager.authenticationService.login("dan@example.com", "password")
+    private fun login(email: String, password: String) {
+        ServiceManager.authenticationService.login(email, password)
                 .enqueue(object: Callback<LoginResponse> {
-                    override fun onFailure(call: Call<LoginResponse>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
+                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        Log.e(LOG_TAG, "Error while logging in: ${t.message}")
+                        login_button.isClickable = true
                     }
 
-                    override fun onResponse(call: Call<LoginResponse>?, response: Response<LoginResponse>?) {
-                        Log.d(LOG_TAG, "dan user token = ${response?.body()?.token}")
+                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                        if (response.code() == 201) {
+                            // TODO: Store token
+                            val intent = Intent(baseContext, HomeActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else if (response.code() == 401) {
+                            Log.d(LOG_TAG, "Invalid Credentials")
+                            error_text.text = getString(R.string.email_or_password_invalid)
+                            error_text.visibility = View.VISIBLE
+                            login_button.isClickable = true
+                        }
                     }
-
                 })
     }
 
@@ -59,21 +88,6 @@ class LoginActivity : AppCompatActivity() {
                             Log.e(LOG_TAG, "Problem logging out, code: ${response?.code()}")
                         }
                     }
-
-                })
-    }
-
-    private fun register() {
-        ServiceManager.authenticationService.register(RegistrationRequest(UserRegistration("test2@example.com", "password", "password")))
-                .enqueue(object: Callback<RegistrationResponse> {
-                    override fun onFailure(call: Call<RegistrationResponse>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
-                    override fun onResponse(call: Call<RegistrationResponse>?, response: Response<RegistrationResponse>?) {
-                        Log.d(LOG_TAG, "new user token = ${response?.body()?.token}")
-                    }
-
                 })
     }
 
