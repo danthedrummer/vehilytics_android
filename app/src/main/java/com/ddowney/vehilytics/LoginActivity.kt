@@ -6,7 +6,7 @@ import android.util.Log
 import com.ddowney.vehilytics.models.LoginResponse
 import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
-import com.ddowney.vehilytics.models.UserRegistrationModel
+import com.ddowney.vehilytics.models.UserRegistration
 import com.ddowney.vehilytics.services.ServiceManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun register() {
-        ServiceManager.authenticationService.register(RegistrationRequest(UserRegistrationModel("test2@example.com", "password", "password")))
+        ServiceManager.authenticationService.register(RegistrationRequest(UserRegistration("test2@example.com", "password", "password")))
                 .enqueue(object: Callback<RegistrationResponse> {
                     override fun onFailure(call: Call<RegistrationResponse>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
