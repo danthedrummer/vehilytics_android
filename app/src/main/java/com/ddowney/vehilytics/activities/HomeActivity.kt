@@ -1,9 +1,12 @@
-package com.ddowney.vehilytics
+package com.ddowney.vehilytics.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_home.*
+import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.helpers.DanCompatActivity
+
 
 class HomeActivity : DanCompatActivity() {
 
@@ -14,7 +17,7 @@ class HomeActivity : DanCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        setSupportActionBar(main_toolbar)
+        setSupportActionBar(home_toolbar)
 
         vehicle_button.setOnClickListener {
             //TODO: launch vehicle activity
@@ -22,8 +25,8 @@ class HomeActivity : DanCompatActivity() {
         }
 
         preferences_button.setOnClickListener {
-            //TODO: launch preferences activity
-            Log.d(LOG_TAG, "PREFERENCES button clicked")
+            val intent = Intent(baseContext, PreferencesActivity::class.java)
+            startActivity(intent)
         }
 
         reminders_button.setOnClickListener {
@@ -32,7 +35,6 @@ class HomeActivity : DanCompatActivity() {
         }
 
         device_button.setOnClickListener {
-            Log.d(LOG_TAG, "DEVICE button clicked")
             val intent = Intent(baseContext, DeviceActivity::class.java)
             startActivity(intent)
         }

@@ -11,13 +11,16 @@ interface AuthenticationService {
 
     @FormUrlEncoded
     @POST("v1/sessions")
-    fun login(@Field("email") email: String, @Field("password") password: String): Call<LoginResponse>
+    fun login(@Field("email") email: String,
+              @Field("password") password: String): Call<LoginResponse>
 
     @DELETE("v1/sessions")
-    fun logout(@Header("X-User-Email") email: String, @Header("X-User-Token") token: String): Call<Void>
+    fun logout(@Header("X-User-Email") email: String,
+               @Header("X-User-Token") token: String): Call<Void>
 
     @GET("v1/sessions")
-    fun validate(@Header("X-User-Email") email: String, @Header("X-User-Token") token: String): Call<Void>
+    fun validate(@Header("X-User-Email") email: String,
+                 @Header("X-User-Token") token: String): Call<Void>
 
     @POST("/users")
     fun register(@Body registration: RegistrationRequest): Call<RegistrationResponse>

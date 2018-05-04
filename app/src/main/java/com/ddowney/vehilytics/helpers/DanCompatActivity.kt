@@ -1,11 +1,13 @@
-package com.ddowney.vehilytics
+package com.ddowney.vehilytics.helpers
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.User
+import com.ddowney.vehilytics.activities.LoginActivity
 import com.ddowney.vehilytics.services.ServiceManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +45,9 @@ open class DanCompatActivity: AppCompatActivity() {
         if (User.email.isEmpty() || User.token.isEmpty()) {
             User.clearUser()
             val intent = Intent(baseContext, LoginActivity::class.java)
+            intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
+                    or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
             finish()
         }
@@ -57,6 +62,9 @@ open class DanCompatActivity: AppCompatActivity() {
                             Log.d(LOG_TAG, "Successfully logged out")
                             User.clearUser()
                             val intent = Intent(baseContext, LoginActivity::class.java)
+                            intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
+                                    or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                    or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             startActivity(intent)
                             finish()
                         } else {

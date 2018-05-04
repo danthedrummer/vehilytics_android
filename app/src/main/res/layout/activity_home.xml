@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".activities.HomeActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/main_toolbar"
+        android:id="@+id/home_toolbar"
         app:titleTextColor="@color/colorIcons"
         app:popupTheme="@style/PopupMenuStyle"
         app:title="Home"
@@ -15,7 +15,7 @@
 
     <RelativeLayout
         android:id="@+id/vehicle_button"
-        android:layout_below="@+id/main_toolbar"
+        android:layout_below="@+id/home_toolbar"
         android:layout_marginTop="30dp"
         style="@style/MainButton">
         <TextView

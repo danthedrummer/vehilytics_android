@@ -1,9 +1,10 @@
-package com.ddowney.vehilytics
+package com.ddowney.vehilytics.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.ddowney.vehilytics.R
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {

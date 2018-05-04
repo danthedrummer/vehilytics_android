@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PreferencesActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/preferences_toolbar"
+        app:titleTextColor="@color/colorIcons"
+        app:popupTheme="@style/PopupMenuStyle"
+        app:title="Sensor Preferences"
+        style="@style/MainToolbar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sensor_list_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_below="@id/preferences_toolbar"
+        android:layout_alignParentBottom="true"
+        android:padding="16dp"
+        android:clipToPadding="false"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/preferences_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_check_24dp"
+        android:clickable="true"
+        android:focusable="true"/>
+
+</RelativeLayout>

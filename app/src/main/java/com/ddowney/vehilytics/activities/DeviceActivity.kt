@@ -1,8 +1,11 @@
-package com.ddowney.vehilytics
+package com.ddowney.vehilytics.activities
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.User
+import com.ddowney.vehilytics.helpers.DanCompatActivity
 import com.ddowney.vehilytics.models.Device
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_device.*
@@ -19,7 +22,7 @@ class DeviceActivity : DanCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device)
-        setSupportActionBar(main_toolbar)
+        setSupportActionBar(device_manager_toolbar)
 
         getDeviceInfo()
 

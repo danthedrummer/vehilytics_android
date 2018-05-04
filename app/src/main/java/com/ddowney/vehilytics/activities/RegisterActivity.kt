@@ -1,10 +1,11 @@
-package com.ddowney.vehilytics
+package com.ddowney.vehilytics.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
 import com.ddowney.vehilytics.models.UserRegistration
