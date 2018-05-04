@@ -14,7 +14,8 @@ interface SensorsService {
                            @Header("X-User-Token") token: String): Call<List<Sensor>>
 
     @GET("v1/sensors")
-    fun getRequestedSensors(@Header("X-User-Email") email: String,
+    fun getRequestedSensors(@Query("filter") filter: String,
+                            @Header("X-User-Email") email: String,
                             @Header("X-User-Token") token: String): Call<List<Sensor>>
 
     @POST("v1/sensors")

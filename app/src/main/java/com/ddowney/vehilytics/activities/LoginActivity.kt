@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
-import com.ddowney.vehilytics.User
+import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.models.LoginResponse
+import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -59,8 +60,9 @@ class LoginActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         if (response.code() == 201) {
                             // TODO: Store token
-                            User.email = response.body()?.email!!
-                            User.token = response.body()?.token!!
+                            Vehilytics.user = User(response.body()?.email ?: "",
+                                    response.body()?.token ?: "")
+                            Vehilytics.storeUser(baseContext)
                             val intent = Intent(baseContext, HomeActivity::class.java)
                             startActivity(intent)
                             finish()

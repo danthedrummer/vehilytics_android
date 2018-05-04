@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
-import com.ddowney.vehilytics.User
+import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 import com.ddowney.vehilytics.models.Device
 import com.ddowney.vehilytics.services.ServiceManager
@@ -36,7 +36,7 @@ class DeviceActivity : DanCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (!User.deviceName.isEmpty()) {
+            if (!Vehilytics.device.deviceName.isEmpty()) {
                 device_manager_error_text.text = getString(R.string.device_already_attached)
                 device_manager_error_text.visibility = View.VISIBLE
                 return@setOnClickListener
@@ -49,13 +49,13 @@ class DeviceActivity : DanCompatActivity() {
         detach_device_button.setOnClickListener {
             device_manager_error_text.visibility = View.GONE
 
-            if (User.deviceName == "") {
+            if (Vehilytics.device.deviceName == "") {
                 //TODO: alert the user that no device is attached
                 return@setOnClickListener
             }
 
             val deviceName = device_name_field.text.toString()
-            if (deviceName.isEmpty() || deviceName != User.deviceName) {
+            if (deviceName.isEmpty() || deviceName != Vehilytics.device.deviceName) {
                 device_manager_error_text.text = getString(R.string.invalid_device_name)
                 device_manager_error_text.visibility = View.VISIBLE
                 return@setOnClickListener
@@ -67,7 +67,9 @@ class DeviceActivity : DanCompatActivity() {
     }
 
     private fun getDeviceInfo() {
-        ServiceManager.deviceService.getDeviceInfo(User.email, User.token)
+        Log.d("wubalub", "email = '${Vehilytics.user.email}'")
+        Log.d("wubalub", "token = '${Vehilytics.user.token}'")
+        ServiceManager.deviceService.getDeviceInfo("dan@example.com", "kziPmqexFi5nmpJMt9NG")
                 .enqueue(object: Callback<Device> {
                     override fun onFailure(call: Call<Device>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
@@ -81,13 +83,13 @@ class DeviceActivity : DanCompatActivity() {
                                 device_manager_error_text.visibility = View.VISIBLE
                             }
                             200 -> {
-                                val deviceName = response.body()?.deviceName
-                                if (!deviceName.isNullOrEmpty()) {
-                                    device_name_text.text = deviceName
-                                    User.deviceName = deviceName ?: "None"
-                                }
+                                val deviceName = response.body()?.deviceName ?: ""
+                                val deviceEmail = response.body()?.email ?: ""
+                                device_name_text.text = deviceName
+                                Vehilytics.device = Device(deviceEmail, deviceName)
                             }
                             else -> {
+                                Log.d("wubalub", response.message())
                                 device_manager_error_text.text = getString(R.string.invalid_credentials)
                                 device_manager_error_text.visibility = View.VISIBLE
                             }
@@ -98,8 +100,8 @@ class DeviceActivity : DanCompatActivity() {
                 })
     }
 
-    private fun attachDevice(deviceName: String) {
-        ServiceManager.deviceService.attachDeviceToUser(User.email, User.token, deviceName)
+    private fun attachDevice(deviceNameToAttach: String) {
+        ServiceManager.deviceService.attachDeviceToUser(Vehilytics.user.email, Vehilytics.user.token, deviceNameToAttach)
                 .enqueue(object: Callback<Device> {
                     override fun onFailure(call: Call<Device>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
@@ -108,8 +110,10 @@ class DeviceActivity : DanCompatActivity() {
                     override fun onResponse(call: Call<Device>?, response: Response<Device>?) {
                         when (response?.code()) {
                             201 -> {
-                                User.deviceName = response.body()?.deviceName ?: "None"
-                                device_name_text.text = User.deviceName
+                                val deviceName = response.body()?.deviceName ?: ""
+                                val deviceEmail = response.body()?.email ?: ""
+                                Vehilytics.device = Device(deviceEmail, deviceName)
+                                device_name_text.text = deviceName
                             }
                             400 -> {
                                 device_manager_error_text.text = getString(R.string.invalid_device_name)
@@ -125,7 +129,7 @@ class DeviceActivity : DanCompatActivity() {
     }
 
     private fun detachDevice(deviceName: String) {
-        ServiceManager.deviceService.detachDeviceFromUser(User.email, User.token, deviceName)
+        ServiceManager.deviceService.detachDeviceFromUser(Vehilytics.user.email, Vehilytics.user.token, deviceName)
                 .enqueue(object: Callback<Void> {
                     override fun onFailure(call: Call<Void>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
@@ -135,7 +139,7 @@ class DeviceActivity : DanCompatActivity() {
                         when (response?.code()) {
                             200 -> {
                                 device_name_text.text = getString(R.string.none)
-                                User.deviceName = ""
+                                Vehilytics.clearDevice()
                             }
                             else -> {
                                 device_manager_error_text.text = getString(R.string.invalid_credentials)

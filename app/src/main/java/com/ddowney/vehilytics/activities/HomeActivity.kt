@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_home.*
 import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 
 
@@ -38,6 +39,8 @@ class HomeActivity : DanCompatActivity() {
             val intent = Intent(baseContext, DeviceActivity::class.java)
             startActivity(intent)
         }
+
+//        Log.d("wubalub", "'dan@example.com' == '${Vehilytics.user.email}' = ${"dan@example.com" == Vehilytics.user.email}")
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.adapters.SensorPreferencesAdapter
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 import com.ddowney.vehilytics.helpers.SensorListClickListener
@@ -38,7 +39,13 @@ class PreferencesActivity : DanCompatActivity() {
     private fun updateAdapter() {
         sensorPreferencesAdapter = SensorPreferencesAdapter(sensorList, object: SensorListClickListener {
             override fun onItemClicked(position: Int) {
+                val sensor = sensorList[position]
 
+                if (!Vehilytics.sensorPreferences.containsKey(sensor.shortname)) {
+                    val preferences = Vehilytics.sensorPreferences.toMutableMap()
+                    preferences[sensor.shortname] = sensor
+                    Vehilytics.sensorPreferences = preferences
+                }
             }
         })
         sensor_list_recycler.adapter = sensorPreferencesAdapter

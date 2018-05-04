@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
+import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.models.UserRegistration
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_register.*
@@ -67,6 +69,7 @@ class RegisterActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<RegistrationResponse>, response: Response<RegistrationResponse>) {
                         if (response.code() == 201) {
                             // TODO: Store token
+                            Vehilytics.user = User(email , response.body()?.token ?: "")
                             val intent = Intent(baseContext, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
