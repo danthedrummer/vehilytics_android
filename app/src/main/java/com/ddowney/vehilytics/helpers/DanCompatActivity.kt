@@ -17,6 +17,8 @@ import retrofit2.Response
 /**
  * This class provides the shared toolbar functionality for multiple activities
  * rather than implementing it multiple times.
+ *
+ * Suppressing the registered warning because this is not a launchable activity
  */
 @SuppressLint("Registered")
 open class DanCompatActivity: AppCompatActivity() {
