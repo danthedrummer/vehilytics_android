@@ -67,9 +67,7 @@ class DeviceActivity : DanCompatActivity() {
     }
 
     private fun getDeviceInfo() {
-        Log.d("wubalub", "email = '${Vehilytics.user.email}'")
-        Log.d("wubalub", "token = '${Vehilytics.user.token}'")
-        ServiceManager.deviceService.getDeviceInfo("dan@example.com", "kziPmqexFi5nmpJMt9NG")
+        ServiceManager.deviceService.getDeviceInfo(Vehilytics.user.email, Vehilytics.user.token)
                 .enqueue(object: Callback<Device> {
                     override fun onFailure(call: Call<Device>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
@@ -89,7 +87,6 @@ class DeviceActivity : DanCompatActivity() {
                                 Vehilytics.device = Device(deviceEmail, deviceName)
                             }
                             else -> {
-                                Log.d("wubalub", response.message())
                                 device_manager_error_text.text = getString(R.string.invalid_credentials)
                                 device_manager_error_text.visibility = View.VISIBLE
                             }

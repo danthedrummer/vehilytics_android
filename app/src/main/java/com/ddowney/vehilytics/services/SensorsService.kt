@@ -1,6 +1,7 @@
 package com.ddowney.vehilytics.services
 
 import com.ddowney.vehilytics.models.Sensor
+import com.ddowney.vehilytics.models.UpdateSensorsRequest
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -14,12 +15,12 @@ interface SensorsService {
                            @Header("X-User-Token") token: String): Call<List<Sensor>>
 
     @GET("v1/sensors")
-    fun getRequestedSensors(@Query("filter") filter: String,
-                            @Header("X-User-Email") email: String,
-                            @Header("X-User-Token") token: String): Call<List<Sensor>>
+    fun getRequestedSensors(@Header("X-User-Email") email: String,
+                            @Header("X-User-Token") token: String,
+                            @Query("user_filter") filter: String): Call<List<Sensor>>
 
     @POST("v1/sensors")
     fun updateRequestedSensors(@Header("X-User-Email") email: String,
                                @Header("X-User-Token") token: String,
-                               @Field("sensors") sensors: List<String>): Call<Void>
+                               @Body request: UpdateSensorsRequest): Call<Void>
 }

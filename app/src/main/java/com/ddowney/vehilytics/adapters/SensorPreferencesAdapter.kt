@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.ddowney.vehilytics.R
+import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.SensorListClickListener
 import com.ddowney.vehilytics.models.Sensor
 import kotlinx.android.synthetic.main.sensor_preference_view.view.*
@@ -46,6 +47,9 @@ class SensorPreferencesAdapter(private val data: List<Sensor>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindSensorModel(data[position])
+        if (Vehilytics.sensorPreferences.containsKey(data[position].shortname)) {
+            holder.itemView.sensor_checkbox.isChecked = true
+        }
         if (position + 1 == itemCount) {
             setBottomMargin(holder.itemView, (64 * Resources.getSystem().displayMetrics.density).toInt())
         }

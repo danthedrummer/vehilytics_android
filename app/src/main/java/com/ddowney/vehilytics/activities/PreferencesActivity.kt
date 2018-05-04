@@ -1,5 +1,7 @@
 package com.ddowney.vehilytics.activities
 
+import android.app.Service
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -9,6 +11,7 @@ import com.ddowney.vehilytics.adapters.SensorPreferencesAdapter
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 import com.ddowney.vehilytics.helpers.SensorListClickListener
 import com.ddowney.vehilytics.models.Sensor
+import com.ddowney.vehilytics.models.UpdateSensorsRequest
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_preferences.*
 import retrofit2.Call
@@ -22,7 +25,10 @@ class PreferencesActivity : DanCompatActivity() {
     }
 
     private lateinit var sensorPreferencesAdapter: SensorPreferencesAdapter
-    private var sensorList: List<Sensor> = listOf(Sensor("1", "test1", "test1", "?"))
+    private var sensorList: List<Sensor> = listOf()
+
+    private var sensorListRetrieved = false
+    private var sensorPreferencesRetrieved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,16 @@ class PreferencesActivity : DanCompatActivity() {
         sensor_list_recycler.layoutManager = LinearLayoutManager(this)
 
         getSupportedSensors()
-//        updateAdapter()
+        getSensorPreferences()
+
+    }
+
+    private fun displayMainContent() {
+        updateAdapter()
+
+        preferences_fab.setOnClickListener {
+            updateSensorPreferences()
+        }
     }
 
     private fun updateAdapter() {
@@ -41,11 +56,17 @@ class PreferencesActivity : DanCompatActivity() {
             override fun onItemClicked(position: Int) {
                 val sensor = sensorList[position]
 
+                val preferences = Vehilytics.sensorPreferences.toMutableMap()
+
                 if (!Vehilytics.sensorPreferences.containsKey(sensor.shortname)) {
-                    val preferences = Vehilytics.sensorPreferences.toMutableMap()
                     preferences[sensor.shortname] = sensor
-                    Vehilytics.sensorPreferences = preferences
+                } else {
+                    preferences.remove(sensor.shortname)
                 }
+
+                Vehilytics.sensorPreferences = preferences
+
+                Log.d(LOG_TAG, Vehilytics.sensorPreferences.toString())
             }
         })
         sensor_list_recycler.adapter = sensorPreferencesAdapter
@@ -62,12 +83,70 @@ class PreferencesActivity : DanCompatActivity() {
                     override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
                         when (response?.code()) {
                             200 -> {
-                                Log.e(LOG_TAG, "Body: ${response.body()}")
+                                Log.d(LOG_TAG, "Body: ${response.body()}")
                                 sensorList = response.body() ?: listOf()
-                                updateAdapter()
+                                sensorListRetrieved = true
+                                if (sensorListRetrieved && sensorPreferencesRetrieved) {
+                                    displayMainContent()
+                                }
                             }
                             else -> {
                                 Log.e(LOG_TAG, "Response: ${response?.code()}")
+                            }
+                        }
+                    }
+                })
+    }
+
+    private fun getSensorPreferences() {
+        ServiceManager.sensorsService.getRequestedSensors(Vehilytics.user.email,
+                Vehilytics.user.token, "requestedSensors")
+                .enqueue(object: Callback<List<Sensor>> {
+                    override fun onFailure(call: Call<List<Sensor>>?, t: Throwable?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
+                        when (response?.code()) {
+                            200 -> {
+                                Log.d(LOG_TAG, "Body: ${response.body()}")
+                                val preferences = response.body() ?: listOf()
+                                val preferencesMap = mutableMapOf<String, Sensor>()
+                                preferences.forEach {
+                                    preferencesMap[it.shortname] = it
+                                }
+                                Vehilytics.sensorPreferences = preferencesMap
+                                sensorPreferencesRetrieved = true
+                                if (sensorListRetrieved && sensorPreferencesRetrieved) {
+                                    displayMainContent()
+                                }
+                            }
+                            else -> {
+                                Log.e(LOG_TAG, "Response: ${response?.code()}")
+                            }
+                        }
+                    }
+                })
+    }
+
+    private fun updateSensorPreferences() {
+        val preferences = mutableListOf<String>()
+        Vehilytics.sensorPreferences.forEach { _, sensor ->
+            preferences.add(sensor.shortname)
+        }
+
+        ServiceManager.sensorsService.updateRequestedSensors(Vehilytics.user.email,
+                Vehilytics.user.token, UpdateSensorsRequest(preferences))
+                .enqueue(object: Callback<Void> {
+                    override fun onFailure(call: Call<Void>?, t: Throwable?) {
+                        Log.e(LOG_TAG, "Error: ${t?.message}")
+                    }
+
+                    override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                        when (response?.code()) {
+                            201 -> finish()
+                            else -> {
+                                Log.d(LOG_TAG, "There was an issue with the request: ${response?.code()}")
                             }
                         }
                     }
