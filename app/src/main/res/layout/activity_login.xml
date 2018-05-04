@@ -35,13 +35,11 @@
         android:id="@+id/error_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/colorErrorLight"
         android:layout_above="@id/email_wrapper"
         android:layout_marginBottom="-16dp"
-        android:visibility="gone"
         android:layout_centerHorizontal="true"
-        android:text="@string/email_or_password_invalid"/>
+        android:text="@string/email_or_password_invalid"
+        style="@style/ErrorMessage"/>
     
     <FrameLayout
         android:id="@+id/email_wrapper"

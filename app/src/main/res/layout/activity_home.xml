@@ -8,14 +8,10 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
         app:titleTextColor="@color/colorIcons"
-        android:elevation="4dp"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
         app:popupTheme="@style/PopupMenuStyle"
-        app:title="Home"/>
+        app:title="Home"
+        style="@style/MainToolbar"/>
 
     <RelativeLayout
         android:id="@+id/vehicle_button"

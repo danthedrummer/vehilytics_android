@@ -21,4 +21,14 @@
     <string name="preferences_button_subtext">Manage the sensors reported</string>
     <string name="reminders_button_subtext">Manage your reminders</string>
     <string name="device_button_subtext">Manage your device</string>
+    <string name="currently_attached_device">Currently attached device:</string>
+    <string name="none">None</string>
+    <string name="attach_device">Attach Device</string>
+    <string name="detach_device">Detach Device</string>
+    <string name="device_name">Device Name</string>
+    <string name="invalid_device_name">Invalid device name</string>
+    <string name="no_device_attached">No Device attached</string>
+    <string name="invalid_credentials">Invalid Credentials</string>
+    <string name="error_occurred">An error occurred</string>
+    <string name="device_already_attached">Device already attached</string>
 </resources>
