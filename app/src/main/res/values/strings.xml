@@ -21,7 +21,7 @@
     <string name="preferences_button_subtext">Manage the sensors reported</string>
     <string name="reminders_button_subtext">Manage your reminders</string>
     <string name="device_button_subtext">Manage your device</string>
-    <string name="currently_attached_device">Currently attached device:</string>
+    <string name="currently_attached_device">Your Device:</string>
     <string name="none">None</string>
     <string name="attach_device">Attach Device</string>
     <string name="detach_device">Detach Device</string>

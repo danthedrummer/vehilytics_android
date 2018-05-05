@@ -23,14 +23,16 @@
         android:layout_below="@id/device_manager_toolbar"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="32dp"
+        android:padding="32dp"
+        android:background="@drawable/text_field_wrapper">
 
         <TextView
             android:id="@+id/device_name_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/currently_attached_device"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="@color/colorPrimaryText"
             android:layout_weight="0.7" />
 
@@ -39,29 +41,37 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/none"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="@color/colorSecondaryText"
             android:layout_weight="0.3"/>
 
     </LinearLayout>
 
-    <View android:id="@+id/divider1" android:layout_below="@id/device_name_wrapper" style="@style/Divider"/>
+    <!--<View android:id="@+id/divider1" android:layout_below="@id/device_name_wrapper" style="@style/Divider"/>-->
 
-    <EditText
-        android:id="@+id/device_name_field"
+    <FrameLayout
+        android:id="@+id/device_name_field_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/text_field_wrapper"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp"
-        android:inputType="text"
-        android:hint="@string/device_name"
-        android:layout_below="@id/divider1"/>
+        android:layout_below="@id/device_name_wrapper">
+        <EditText
+            android:id="@+id/device_name_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/device_name"
+            style="@style/FormTextField"/>
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/attach_device_button"
         android:text="@string/attach_device"
-        android:layout_below="@id/device_name_field"
+        android:layout_below="@id/device_name_field_wrapper"
         android:layout_alignParentEnd="true"
         android:clickable="false"
         style="@style/DeviceManagerButton" />

@@ -24,17 +24,10 @@ class VehicleActivity : DanCompatActivity() {
     }
 
     private lateinit var vehicleSensorsAdapter: VehicleSensorsAdapter
-    private var vehicleSensors: List<Sensor> = listOf(
-            Sensor("1", "Fuel Level", "fuel_level", "%"),
-            Sensor("2", "Ambient Air Temp", "ambient_air_temp", "C"),
-            Sensor("3", "Control Module Voltage", "control_module_voltage", "V")
-    )
+    private var vehicleSensors: List<Sensor> = listOf()
 
-    private var warnings: List<String> = listOf("fuel_level")
+    private var warnings: List<String> = listOf()
     private var errors: List<String> = listOf()
-
-    private var vehicleSensorsRetrieve = false
-    private var sensorStatusRetrieved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +64,7 @@ class VehicleActivity : DanCompatActivity() {
                     override fun onResponse(call: Call<ReportedSensorsResponse>?,
                                             response: Response<ReportedSensorsResponse>?) {
                         vehicleSensors = response?.body()?.sensors ?: listOf()
-//                        warnings = response?.body()?.warnings ?: listOf()
+                        warnings = response?.body()?.warnings ?: listOf()
                         errors = response?.body()?.errors ?: listOf()
                         displayMainContent()
                     }
