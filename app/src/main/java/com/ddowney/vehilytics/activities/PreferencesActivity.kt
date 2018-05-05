@@ -8,7 +8,8 @@ import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.adapters.SensorPreferencesAdapter
 import com.ddowney.vehilytics.helpers.DanCompatActivity
-import com.ddowney.vehilytics.helpers.SensorListClickListener
+import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
+import com.ddowney.vehilytics.helpers.listeners.SensorListClickListener
 import com.ddowney.vehilytics.models.Sensor
 import com.ddowney.vehilytics.models.UpdateSensorsRequest
 import com.ddowney.vehilytics.services.ServiceManager
@@ -78,11 +79,7 @@ class PreferencesActivity : DanCompatActivity() {
 
     private fun getSupportedSensors() {
         ServiceManager.sensorsService.getAllSensors()
-                .enqueue(object: Callback<List<Sensor>> {
-                    override fun onFailure(call: Call<List<Sensor>>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<List<Sensor>>() {
                     override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
                         when (response?.code()) {
                             200 -> {
@@ -104,10 +101,7 @@ class PreferencesActivity : DanCompatActivity() {
     private fun getSensorPreferences() {
         ServiceManager.sensorsService.getRequestedSensors(Vehilytics.user.email,
                 Vehilytics.user.token, "requestedSensors")
-                .enqueue(object: Callback<List<Sensor>> {
-                    override fun onFailure(call: Call<List<Sensor>>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
+                .enqueue(object: VehilyticsCallback<List<Sensor>>() {
 
                     override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
                         when (response?.code()) {
@@ -140,11 +134,7 @@ class PreferencesActivity : DanCompatActivity() {
 
         ServiceManager.sensorsService.updateRequestedSensors(Vehilytics.user.email,
                 Vehilytics.user.token, UpdateSensorsRequest(preferences))
-                .enqueue(object: Callback<Void> {
-                    override fun onFailure(call: Call<Void>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<Void>() {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         when (response?.code()) {
                             201 -> finish()

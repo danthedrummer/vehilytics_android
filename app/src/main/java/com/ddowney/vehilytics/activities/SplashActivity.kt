@@ -7,6 +7,7 @@ import android.os.Handler
 import android.util.Log
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
+import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
 import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -36,14 +37,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun validateUser() {
         ServiceManager.authenticationService.validate(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object: Callback<Void> {
-                    override fun onFailure(call: Call<Void>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                        val intent = Intent(baseContext, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-
+                .enqueue(object: VehilyticsCallback<Void>() {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         val intent = when (response?.code()) {
                             200 -> Intent(baseContext, HomeActivity::class.java)

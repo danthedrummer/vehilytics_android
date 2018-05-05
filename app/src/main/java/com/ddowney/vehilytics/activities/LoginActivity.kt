@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
+import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
 import com.ddowney.vehilytics.models.LoginResponse
 import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.services.ServiceManager
@@ -51,12 +52,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(email: String, password: String) {
         ServiceManager.authenticationService.login(email, password)
-                .enqueue(object: Callback<LoginResponse> {
-                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Log.e(LOG_TAG, "Error while logging in: ${t.message}")
-                        login_button.isClickable = true
-                    }
-
+                .enqueue(object: VehilyticsCallback<LoginResponse>() {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         if (response.code() == 201) {
                             Vehilytics.user = User(response.body()?.email ?: "",
@@ -77,11 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validate() {
         ServiceManager.authenticationService.validate("dan@example.com", "some_token")
-                .enqueue(object: Callback<Void> {
-                    override fun onFailure(call: Call<Void>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<Void>() {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         Log.d(LOG_TAG, "Validate code: ${response?.code()}")
                     }

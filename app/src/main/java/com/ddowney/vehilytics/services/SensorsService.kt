@@ -1,5 +1,6 @@
 package com.ddowney.vehilytics.services
 
+import com.ddowney.vehilytics.models.ReportedSensorsResponse
 import com.ddowney.vehilytics.models.Sensor
 import com.ddowney.vehilytics.models.UpdateSensorsRequest
 import retrofit2.Call
@@ -12,7 +13,7 @@ interface SensorsService {
 
     @GET("v1/sensors")
     fun getReportedSensors(@Header("X-User-Email") email: String,
-                           @Header("X-User-Token") token: String): Call<List<Sensor>>
+                           @Header("X-User-Token") token: String): Call<ReportedSensorsResponse>
 
     @GET("v1/sensors")
     fun getRequestedSensors(@Header("X-User-Email") email: String,

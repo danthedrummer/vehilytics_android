@@ -9,6 +9,7 @@ import android.view.MenuItem
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.activities.LoginActivity
+import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
 import com.ddowney.vehilytics.services.ServiceManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,9 +52,9 @@ open class DanCompatActivity: AppCompatActivity() {
 
     private fun logoutRequest() {
         ServiceManager.authenticationService.logout(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object : Callback<Void> {
+                .enqueue(object : VehilyticsCallback<Void>() {
                     override fun onFailure(call: Call<Void>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
+                        super.onFailure(call, t)
                         logoutLocal()
                     }
 

@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.DanCompatActivity
+import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
 import com.ddowney.vehilytics.models.Device
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_device.*
@@ -71,11 +72,7 @@ class DeviceActivity : DanCompatActivity() {
 
     private fun getDeviceInfo() {
         ServiceManager.deviceService.getDeviceInfo(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object: Callback<Device> {
-                    override fun onFailure(call: Call<Device>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<Device>() {
                     override fun onResponse(call: Call<Device>, response: Response<Device>) {
                         Log.d(LOG_TAG, "code = ${response.code()}")
                         when (response.code()) {
@@ -100,11 +97,7 @@ class DeviceActivity : DanCompatActivity() {
 
     private fun attachDevice(deviceNameToAttach: String) {
         ServiceManager.deviceService.attachDeviceToUser(Vehilytics.user.email, Vehilytics.user.token, deviceNameToAttach)
-                .enqueue(object: Callback<Device> {
-                    override fun onFailure(call: Call<Device>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<Device>() {
                     override fun onResponse(call: Call<Device>?, response: Response<Device>?) {
                         when (response?.code()) {
                             201 -> {
@@ -126,11 +119,7 @@ class DeviceActivity : DanCompatActivity() {
 
     private fun detachDevice(deviceName: String) {
         ServiceManager.deviceService.detachDeviceFromUser(Vehilytics.user.email, Vehilytics.user.token, deviceName)
-                .enqueue(object: Callback<Void> {
-                    override fun onFailure(call: Call<Void>?, t: Throwable?) {
-                        Log.e(LOG_TAG, "Error: ${t?.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<Void>() {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         when (response?.code()) {
                             200 -> {

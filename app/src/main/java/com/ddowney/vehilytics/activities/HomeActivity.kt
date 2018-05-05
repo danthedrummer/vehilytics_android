@@ -21,8 +21,8 @@ class HomeActivity : DanCompatActivity() {
         setSupportActionBar(home_toolbar)
 
         vehicle_button.setOnClickListener {
-            //TODO: launch vehicle activity
-            Log.d(LOG_TAG, "VEHICLE button clicked")
+            val intent = Intent(baseContext, VehicleActivity::class.java)
+            startActivity(intent)
         }
 
         preferences_button.setOnClickListener {
@@ -40,7 +40,6 @@ class HomeActivity : DanCompatActivity() {
             startActivity(intent)
         }
 
-//        Log.d("wubalub", "'dan@example.com' == '${Vehilytics.user.email}' = ${"dan@example.com" == Vehilytics.user.email}")
     }
 
 }

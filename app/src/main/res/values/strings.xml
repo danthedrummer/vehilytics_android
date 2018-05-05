@@ -33,4 +33,5 @@
     <string name="device_already_attached">Device already attached</string>
     <string name="ellipses">…</string>
     <string name="app_logo">App Logo</string>
+    <string name="vehicle_sensor_status_indicator">Vehicle sensor status indicator</string>
 </resources>

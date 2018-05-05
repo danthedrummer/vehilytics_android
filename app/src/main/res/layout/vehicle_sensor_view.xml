@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/vehicle_sensor_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_button_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:stateListAnimator="@animator/main_button_elevation">
+        <TextView
+            android:id="@+id/sensor_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryText"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/sensor_shortname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/colorSecondaryText"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/sensor_name"/>
+
+        <ImageView
+            android:id="@+id/vehicle_sensor_warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="24dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/vehicle_sensor_status_indicator"
+            android:src="@drawable/ic_warning"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/vehicle_sensor_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="24dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/vehicle_sensor_status_indicator"
+            android:src="@drawable/ic_error"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</LinearLayout>

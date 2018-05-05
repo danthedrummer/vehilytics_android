@@ -5,11 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
-import com.ddowney.vehilytics.helpers.SensorListClickListener
+import com.ddowney.vehilytics.helpers.listeners.SensorListClickListener
 import com.ddowney.vehilytics.models.Sensor
 import kotlinx.android.synthetic.main.sensor_preference_view.view.*
 import java.lang.ref.WeakReference

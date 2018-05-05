@@ -4,44 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PreferencesActivity"
+    tools:context=".activities.VehicleActivity"
     android:background="@drawable/repeating_back">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/preferences_toolbar"
+        android:id="@+id/vehicle_toolbar"
         app:titleTextColor="@color/colorIcons"
         app:popupTheme="@style/PopupMenuStyle"
-        app:title="Sensor Preferences"
+        app:title="Vehicle Overview"
         style="@style/MainToolbar"/>
 
     <ProgressBar
-        android:id="@+id/preferences_content_loading"
+        android:id="@+id/vehicle_content_loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/sensor_list_recycler"
+        android:id="@+id/vehicle_sensors_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/preferences_toolbar"
+        android:layout_below="@id/vehicle_toolbar"
         android:padding="16dp"
         android:clipToPadding="false"
-        android:visibility="gone"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/preferences_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_check_24dp"
-        android:clickable="true"
-        android:focusable="true"
         android:visibility="gone"/>
 
 </RelativeLayout>

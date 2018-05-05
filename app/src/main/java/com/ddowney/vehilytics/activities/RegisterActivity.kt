@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
+import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
 import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
 import com.ddowney.vehilytics.models.User
@@ -61,11 +62,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun register(email: String, password: String, passwordConfirm: String) {
         ServiceManager.authenticationService
                 .register(RegistrationRequest(UserRegistration(email, password, passwordConfirm)))
-                .enqueue(object: Callback<RegistrationResponse> {
-                    override fun onFailure(call: Call<RegistrationResponse>, t: Throwable) {
-                        Log.e(LOG_TAG, "Error while registering: ${t.message}")
-                    }
-
+                .enqueue(object: VehilyticsCallback<RegistrationResponse>() {
                     override fun onResponse(call: Call<RegistrationResponse>, response: Response<RegistrationResponse>) {
                         if (response.code() == 201) {
                             Vehilytics.user = User(email , response.body()?.token ?: "")
