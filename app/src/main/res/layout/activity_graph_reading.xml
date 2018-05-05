@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.GraphReadingActivity"
+    android:background="@drawable/repeating_back">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/graph_reading_toolbar"
+        app:titleTextColor="@color/colorIcons"
+        app:popupTheme="@style/PopupMenuStyle"
+        style="@style/MainToolbar"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/graph_reading_toolbar"
+        android:background="@color/colorIcons">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/readings_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

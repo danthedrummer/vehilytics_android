@@ -28,6 +28,8 @@ class VehicleSensorsAdapter(private val data: List<Sensor>, private val warnings
         fun bindSensorModel(sensor: Sensor) {
             itemView.sensor_name.text = sensor.name
             itemView.sensor_shortname.text = sensor.shortname
+
+            itemView.vehicle_sensor_item.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {

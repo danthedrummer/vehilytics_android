@@ -1,5 +1,6 @@
 package com.ddowney.vehilytics.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -52,6 +53,9 @@ class VehicleActivity : DanCompatActivity() {
                 object: VehicleSensorsClickListeners {
             override fun onItemClicked(position: Int) {
                 Log.d(LOG_TAG, "Clicked ${vehicleSensors[position]}")
+                val intent = Intent(baseContext, GraphReadingActivity::class.java)
+                intent.putExtra("sensor", vehicleSensors[position])
+                startActivity(intent)
             }
         })
         vehicle_sensors_recycler.adapter = vehicleSensorsAdapter
