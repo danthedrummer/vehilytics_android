@@ -68,7 +68,6 @@ class RegisterActivity : AppCompatActivity() {
 
                     override fun onResponse(call: Call<RegistrationResponse>, response: Response<RegistrationResponse>) {
                         if (response.code() == 201) {
-                            // TODO: Store token
                             Vehilytics.user = User(email , response.body()?.token ?: "")
                             val intent = Intent(baseContext, HomeActivity::class.java)
                             startActivity(intent)

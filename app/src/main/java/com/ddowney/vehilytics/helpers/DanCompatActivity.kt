@@ -35,7 +35,11 @@ open class DanCompatActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.sign_out_menu_option -> {
-                logout()
+                if (!Vehilytics.user.email.isEmpty() || !Vehilytics.user.token.isEmpty()) {
+                    logoutRequest()
+                } else {
+                    logoutLocal()
+                }
                 true
             }
 
@@ -45,36 +49,32 @@ open class DanCompatActivity: AppCompatActivity() {
         }
     }
 
-    private fun logout() {
-        if (Vehilytics.user.email.isEmpty() || Vehilytics.user.token.isEmpty()) {
-            Vehilytics.clearAll(baseContext)
-            val intent = Intent(baseContext, LoginActivity::class.java)
-            intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
-                    or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
-            finish()
-        }
+    private fun logoutRequest() {
         ServiceManager.authenticationService.logout(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object: Callback<Void> {
+                .enqueue(object : Callback<Void> {
                     override fun onFailure(call: Call<Void>?, t: Throwable?) {
                         Log.e(LOG_TAG, "Error: ${t?.message}")
+                        logoutLocal()
                     }
 
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         if (response?.code() == 200) {
                             Log.d(LOG_TAG, "Successfully logged out")
-                            Vehilytics.clearAll(baseContext)
-                            val intent = Intent(baseContext, LoginActivity::class.java)
-                            intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
-                                    or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                    or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            startActivity(intent)
-                            finish()
                         } else {
                             Log.e(LOG_TAG, "Problem logging out, code: ${response?.code()}")
                         }
+                        logoutLocal()
                     }
                 })
+    }
+
+    private fun logoutLocal() {
+        Vehilytics.clearAll(baseContext)
+        val intent = Intent(baseContext, LoginActivity::class.java)
+        intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
+                or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
     }
 }

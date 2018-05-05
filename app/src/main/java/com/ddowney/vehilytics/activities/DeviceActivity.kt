@@ -1,8 +1,10 @@
 package com.ddowney.vehilytics.activities
 
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.util.Log
-import android.view.View
+import android.widget.TextView
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.DanCompatActivity
@@ -27,18 +29,15 @@ class DeviceActivity : DanCompatActivity() {
         getDeviceInfo()
 
         attach_device_button.setOnClickListener {
-            device_manager_error_text.visibility = View.GONE
             val deviceName = device_name_field.text.toString()
 
             if (deviceName.isEmpty()) {
-                device_manager_error_text.text = getString(R.string.invalid_device_name)
-                device_manager_error_text.visibility = View.VISIBLE
+                makeSnackText(getString(R.string.invalid_device_name))
                 return@setOnClickListener
             }
 
             if (!Vehilytics.device.deviceName.isEmpty()) {
-                device_manager_error_text.text = getString(R.string.device_already_attached)
-                device_manager_error_text.visibility = View.VISIBLE
+                makeSnackText(getString(R.string.device_already_attached))
                 return@setOnClickListener
             }
 
@@ -47,23 +46,27 @@ class DeviceActivity : DanCompatActivity() {
         }
 
         detach_device_button.setOnClickListener {
-            device_manager_error_text.visibility = View.GONE
-
             if (Vehilytics.device.deviceName == "") {
-                //TODO: alert the user that no device is attached
+                makeSnackText(getString(R.string.no_device_attached))
                 return@setOnClickListener
             }
 
             val deviceName = device_name_field.text.toString()
             if (deviceName.isEmpty() || deviceName != Vehilytics.device.deviceName) {
-                device_manager_error_text.text = getString(R.string.invalid_device_name)
-                device_manager_error_text.visibility = View.VISIBLE
+                makeSnackText(getString(R.string.invalid_device_name))
                 return@setOnClickListener
             }
 
             detachDevice(deviceName)
             device_name_field.text.clear()
         }
+    }
+
+    private fun makeSnackText(message: String) {
+        val snack = Snackbar.make(device_layout, message, Snackbar.LENGTH_LONG)
+        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+                .setTextColor(Color.WHITE)
+        snack.show()
     }
 
     private fun getDeviceInfo() {
@@ -77,8 +80,7 @@ class DeviceActivity : DanCompatActivity() {
                         Log.d(LOG_TAG, "code = ${response.code()}")
                         when (response.code()) {
                             400 -> {
-                                device_manager_error_text.text = getString(R.string.no_device_attached)
-                                device_manager_error_text.visibility = View.VISIBLE
+                                makeSnackText(getString(R.string.no_device_attached))
                             }
                             200 -> {
                                 val deviceName = response.body()?.deviceName ?: ""
@@ -87,8 +89,7 @@ class DeviceActivity : DanCompatActivity() {
                                 Vehilytics.device = Device(deviceEmail, deviceName)
                             }
                             else -> {
-                                device_manager_error_text.text = getString(R.string.invalid_credentials)
-                                device_manager_error_text.visibility = View.VISIBLE
+                                makeSnackText(getString(R.string.invalid_credentials))
                             }
                         }
                         attach_device_button.isClickable = true
@@ -113,12 +114,10 @@ class DeviceActivity : DanCompatActivity() {
                                 device_name_text.text = deviceName
                             }
                             400 -> {
-                                device_manager_error_text.text = getString(R.string.invalid_device_name)
-                                device_manager_error_text.visibility = View.VISIBLE
+                                makeSnackText(getString(R.string.invalid_device_name))
                             }
                             else -> {
-                                device_manager_error_text.text = getString(R.string.error_occurred)
-                                device_manager_error_text.visibility = View.VISIBLE
+                                makeSnackText(getString(R.string.error_occurred))
                             }
                         }
                     }
@@ -139,8 +138,7 @@ class DeviceActivity : DanCompatActivity() {
                                 Vehilytics.clearDevice()
                             }
                             else -> {
-                                device_manager_error_text.text = getString(R.string.invalid_credentials)
-                                device_manager_error_text.visibility = View.VISIBLE
+                                makeSnackText(getString(R.string.invalid_credentials))
                             }
                         }
                     }

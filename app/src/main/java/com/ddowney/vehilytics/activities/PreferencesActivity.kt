@@ -3,6 +3,7 @@ package com.ddowney.vehilytics.activities
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.adapters.SensorPreferencesAdapter
@@ -47,6 +48,10 @@ class PreferencesActivity : DanCompatActivity() {
         preferences_fab.setOnClickListener {
             updateSensorPreferences()
         }
+
+        preferences_content_loading.visibility = View.GONE
+        sensor_list_recycler.visibility = View.VISIBLE
+        preferences_fab.visibility = View.VISIBLE
     }
 
     private fun updateAdapter() {
@@ -101,7 +106,7 @@ class PreferencesActivity : DanCompatActivity() {
                 Vehilytics.user.token, "requestedSensors")
                 .enqueue(object: Callback<List<Sensor>> {
                     override fun onFailure(call: Call<List<Sensor>>?, t: Throwable?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        Log.e(LOG_TAG, "Error: ${t?.message}")
                     }
 
                     override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
@@ -129,7 +134,7 @@ class PreferencesActivity : DanCompatActivity() {
 
     private fun updateSensorPreferences() {
         val preferences = mutableListOf<String>()
-        Vehilytics.sensorPreferences.forEach { _, sensor ->
+        Vehilytics.sensorPreferences.forEach { (_, sensor) ->
             preferences.add(sensor.shortname)
         }
 

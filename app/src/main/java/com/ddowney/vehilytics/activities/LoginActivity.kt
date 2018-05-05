@@ -59,7 +59,6 @@ class LoginActivity : AppCompatActivity() {
 
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         if (response.code() == 201) {
-                            // TODO: Store token
                             Vehilytics.user = User(response.body()?.email ?: "",
                                     response.body()?.token ?: "")
                             Vehilytics.storeUser(baseContext)

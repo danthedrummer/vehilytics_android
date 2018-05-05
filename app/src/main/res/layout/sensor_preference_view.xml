@@ -12,7 +12,8 @@
         android:focusable="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="12dp"
+        android:stateListAnimator="@animator/main_button_elevation">
         <TextView
             android:id="@+id/sensor_name"
             android:layout_width="match_parent"
@@ -42,7 +43,9 @@
             android:checked="false"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="24dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:clickable="false"
+            android:focusable="false"/>
     </RelativeLayout>
 
 </LinearLayout>
