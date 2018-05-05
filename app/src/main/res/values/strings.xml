@@ -31,5 +31,6 @@
     <string name="invalid_credentials">Invalid Credentials</string>
     <string name="error_occurred">An error occurred</string>
     <string name="device_already_attached">Device already attached</string>
-    <string name="ellipses">...</string>
+    <string name="ellipses">…</string>
+    <string name="app_logo">App Logo</string>
 </resources>

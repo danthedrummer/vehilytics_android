@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ddowney.vehilytics.activities.RegisterActivity"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/colored_repeating_back">
 
     <ImageView
         android:id="@+id/app_logo"

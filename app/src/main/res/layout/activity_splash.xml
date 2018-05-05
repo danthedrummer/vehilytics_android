@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SplashActivity"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/colored_repeating_back">
 
     <ImageView
         android:id="@+id/splash_image"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_centerInParent="true"
-
-        android:background="@mipmap/ic_launcher_foreground"/>
+        android:background="@mipmap/ic_launcher_foreground"
+        android:contentDescription="@string/app_logo" />
 
 </RelativeLayout>
