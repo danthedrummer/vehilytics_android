@@ -10,7 +10,7 @@ import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.adapters.VehicleSensorsAdapter
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
-import com.ddowney.vehilytics.helpers.listeners.VehicleSensorsClickListeners
+import com.ddowney.vehilytics.helpers.listeners.RecyclerViewClickListener
 import com.ddowney.vehilytics.models.ReportedSensorsResponse
 import com.ddowney.vehilytics.models.Sensor
 import com.ddowney.vehilytics.services.ServiceManager
@@ -50,7 +50,7 @@ class VehicleActivity : DanCompatActivity() {
 
     private fun updateAdapter() {
         vehicleSensorsAdapter = VehicleSensorsAdapter(vehicleSensors, warnings, errors,
-                object: VehicleSensorsClickListeners {
+                object: RecyclerViewClickListener {
             override fun onItemClicked(position: Int) {
                 Log.d(LOG_TAG, "Clicked ${vehicleSensors[position]}")
                 val intent = Intent(baseContext, GraphReadingActivity::class.java)

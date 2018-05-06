@@ -21,6 +21,10 @@ import retrofit2.Response
 
 class GraphReadingActivity : DanCompatActivity() {
 
+    companion object {
+        private const val LOG_TAG = "GraphActivity"
+    }
+
     private lateinit var sensor: Sensor
 
     private var readings: List<Reading> = listOf()
@@ -59,14 +63,10 @@ class GraphReadingActivity : DanCompatActivity() {
             graphEntries.add(Entry(graphEntries.size.toFloat(), reading.value.toFloat()))
         }
 
-        (1..20).forEach {
-            graphEntries.add(Entry())
-        }
-
         val setActual = LineDataSet(graphEntries, "Actual")
         setActual.axisDependency = YAxis.AxisDependency.LEFT
-        setActual.color = ContextCompat.getColor(this, R.color.colorAccent)
-        setActual.circleColors = listOf(ContextCompat.getColor(this, R.color.colorDivider))
+        setActual.color = ContextCompat.getColor(this, R.color.colorPrimary)
+        setActual.circleColors = listOf(ContextCompat.getColor(this, R.color.colorAccent))
         setActual.lineWidth = 2f
         setActual.circleRadius = 3f
         setActual.fillAlpha = 65
@@ -78,7 +78,7 @@ class GraphReadingActivity : DanCompatActivity() {
         readings_chart.clear()
         readings_chart.data = data
         val description = Description()
-        description.text = sensor.name
+        description.text = "${sensor.name} (${sensor.unit})"
         readings_chart.description = description
 
         var min = Float.MAX_VALUE

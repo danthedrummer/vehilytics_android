@@ -1,5 +1,5 @@
 package com.ddowney.vehilytics.helpers.listeners
 
-interface VehicleSensorsClickListeners {
+interface RecyclerViewClickListener {
     fun onItemClicked(position: Int)
 }

@@ -10,11 +10,13 @@ object ServiceManager {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    val authenticationService: AuthenticationService = retrofit.create(AuthenticationService::class.java)
+    val authenticationService: AuthenticationService by lazy { retrofit.create(AuthenticationService::class.java) }
 
-    val sensorsService: SensorsService = retrofit.create(SensorsService::class.java)
+    val sensorsService: SensorsService by lazy { retrofit.create(SensorsService::class.java) }
 
-    val readingsService: ReadingsService = retrofit.create(ReadingsService::class.java)
+    val readingsService: ReadingsService by lazy { retrofit.create(ReadingsService::class.java) }
 
-    val deviceService: DeviceService = retrofit.create(DeviceService::class.java)
+    val deviceService: DeviceService by lazy { retrofit.create(DeviceService::class.java) }
+
+    val remindersService: RemindersService by  lazy { retrofit.create(RemindersService::class.java) }
 }

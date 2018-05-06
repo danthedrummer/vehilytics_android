@@ -6,24 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ddowney.vehilytics.R
-import com.ddowney.vehilytics.helpers.listeners.VehicleSensorsClickListeners
+import com.ddowney.vehilytics.helpers.listeners.RecyclerViewClickListener
 import com.ddowney.vehilytics.models.Sensor
 import kotlinx.android.synthetic.main.vehicle_sensor_view.view.*
 import java.lang.ref.WeakReference
 
 class VehicleSensorsAdapter(private val data: List<Sensor>, private val warnings: List<String>,
                             private val errors: List<String>,
-                            private val listener: VehicleSensorsClickListeners)
+                            private val listener: RecyclerViewClickListener)
     : RecyclerView.Adapter<VehicleSensorsAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View, listener: VehicleSensorsClickListeners)
+    class ViewHolder(itemView: View, listener: RecyclerViewClickListener)
         : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         companion object {
             private const val LOG_TAG = "VehicleSensorsHolder"
         }
 
-        private val listenerRef: WeakReference<VehicleSensorsClickListeners> = WeakReference(listener)
+        private val listenerRef: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
 
         fun bindSensorModel(sensor: Sensor) {
             itemView.sensor_name.text = sensor.name

@@ -24,7 +24,8 @@
         <activity android:name=".activities.DeviceActivity" />
         <activity android:name=".activities.PreferencesActivity" />
         <activity android:name=".activities.VehicleActivity" />
-        <activity android:name=".activities.GraphReadingActivity"></activity>
+        <activity android:name=".activities.GraphReadingActivity" />
+        <activity android:name=".activities.RemindersActivity"></activity>
     </application>
 
 </manifest>

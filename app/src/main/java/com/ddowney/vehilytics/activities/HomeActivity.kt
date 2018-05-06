@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_home.*
 import com.ddowney.vehilytics.R
-import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 
 
@@ -31,8 +30,8 @@ class HomeActivity : DanCompatActivity() {
         }
 
         reminders_button.setOnClickListener {
-            //TODO: launch reminders activity
-            Log.d(LOG_TAG, "REMINDERS button clicked")
+            val intent = Intent(baseContext, RemindersActivity::class.java)
+            startActivity(intent)
         }
 
         device_button.setOnClickListener {
