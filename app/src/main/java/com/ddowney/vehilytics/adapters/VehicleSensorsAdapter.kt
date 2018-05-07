@@ -11,6 +11,9 @@ import com.ddowney.vehilytics.models.Sensor
 import kotlinx.android.synthetic.main.vehicle_sensor_view.view.*
 import java.lang.ref.WeakReference
 
+/**
+ * Adapter for the vehicle activity recycler view
+ */
 class VehicleSensorsAdapter(private val data: List<Sensor>, private val warnings: List<String>,
                             private val errors: List<String>,
                             private val listener: RecyclerViewClickListener)

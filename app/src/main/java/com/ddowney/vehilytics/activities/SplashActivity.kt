@@ -13,6 +13,13 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * Simple splash screen display the app logo on a coloured background.
+ *
+ * In the background it validates any stored credentials and either
+ * sends the user to the login screen or straight to the home screen
+ * if the credentials are valid.
+ */
 class SplashActivity : AppCompatActivity() {
 
     companion object {
@@ -40,6 +47,9 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Makes a request to check if the current stored credentials are valid
+     */
     private fun validateUser() {
         ServiceManager.authenticationService.validate(Vehilytics.user.email, Vehilytics.user.token)
                 .enqueue(object: VehilyticsCallback<Void>(baseContext) {
@@ -67,11 +77,17 @@ class SplashActivity : AppCompatActivity() {
                 })
     }
 
+    /**
+     * Prevents the handler from opening the activity when the app is closed
+     */
     override fun onStop() {
         super.onStop()
         handler.removeCallbacks(runnable)
     }
 
+    /**
+     * Prevents the handler from opening the activity when the app is closed
+     */
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(runnable)

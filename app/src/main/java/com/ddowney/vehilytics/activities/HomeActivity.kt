@@ -2,12 +2,14 @@ package com.ddowney.vehilytics.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_home.*
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.helpers.DanCompatActivity
 
-
+/**
+ * The home activity is the main menu of the application and is the
+ * primary navigation point for reaching each of the features
+ */
 class HomeActivity : DanCompatActivity() {
 
     companion object {

@@ -20,6 +20,11 @@ import kotlinx.android.synthetic.main.activity_graph_reading.*
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * This is the graphing activity. It will display the given readings for a
+ * sensor in a readable way along with ranges (if applicable) and any
+ * additional information
+ */
 class GraphReadingActivity : DanCompatActivity() {
 
     companion object {
@@ -47,16 +52,23 @@ class GraphReadingActivity : DanCompatActivity() {
         getReadingsForSensor()
     }
 
+    /**
+     * Hides the loading bar and displays the real content
+     */
     private fun displayMainContent() {
         graph_content_loading.visibility = View.GONE
         graph_wrapper.visibility = View.VISIBLE
         readings_info_wrapper.visibility = View.VISIBLE
     }
 
+    /**
+     * Makes a request to get all readings for the selected sensor
+     */
     private fun getReadingsForSensor() {
         ServiceManager.readingsService.getReadingsForSensor(Vehilytics.user.email, Vehilytics.user.token,
                 sensor.shortname).enqueue(object: VehilyticsCallback<ReadingsResponse>(baseContext) {
             override fun onResponse(call: Call<ReadingsResponse>?, response: Response<ReadingsResponse>?) {
+                super.onResponse(call, response)
                 readings = response?.body()?.readings ?: listOf()
                 readings_info.text = response?.body()?.info ?: "No info provided"
                 populateGraph()
@@ -65,6 +77,9 @@ class GraphReadingActivity : DanCompatActivity() {
         })
     }
 
+    /**
+     * Populates the graph with the information retrieved from the server
+     */
     private fun populateGraph() {
         val graphEntries: MutableList<Entry> = mutableListOf()
 

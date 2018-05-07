@@ -7,19 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
-import com.ddowney.vehilytics.helpers.listeners.SensorListClickListener
+import com.ddowney.vehilytics.helpers.listeners.RecyclerViewClickListener
 import com.ddowney.vehilytics.models.Sensor
 import kotlinx.android.synthetic.main.sensor_preference_view.view.*
 import java.lang.ref.WeakReference
 
+/**
+ * Adapter for the preferences screen recycler view
+ */
 class SensorPreferencesAdapter(private val data: List<Sensor>,
-                               private val listener: SensorListClickListener)
+                               private val listener: RecyclerViewClickListener)
     : RecyclerView.Adapter<SensorPreferencesAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View, listener: SensorListClickListener)
+    class ViewHolder(itemView: View, listener: RecyclerViewClickListener)
         : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        private val listenerRef: WeakReference<SensorListClickListener> = WeakReference(listener)
+        private val listenerRef: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
 
         fun bindSensorModel(sensor: Sensor) {
             itemView.sensor_name.text = sensor.name
@@ -53,6 +56,13 @@ class SensorPreferencesAdapter(private val data: List<Sensor>,
         }
     }
 
+    /**
+     * Increases the bottom margin of the last item in the list so that there is
+     * enough space at the end for the floating action button to sit freely
+     *
+     * @param view: The view to be updated
+     * @param bottomMargin: The size of new bottom margin in dp
+     */
     private fun setBottomMargin(view: View, bottomMargin: Int) {
         if (view.layoutParams is ViewGroup.MarginLayoutParams) {
             val params = view.layoutParams as ViewGroup.MarginLayoutParams

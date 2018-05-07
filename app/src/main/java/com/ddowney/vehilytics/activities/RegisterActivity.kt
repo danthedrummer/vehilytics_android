@@ -15,9 +15,12 @@ import com.ddowney.vehilytics.models.UserRegistration
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * The registration activity allows a user to register a new account
+ * to make use of the application features.
+ */
 class RegisterActivity : AppCompatActivity() {
 
     companion object {
@@ -59,6 +62,13 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Makes a request to create a new user account
+     *
+     * @param email: The new user email
+     * @param password: The new user password
+     * @param passwordConfirm: The new user confirmed password
+     */
     private fun register(email: String, password: String, passwordConfirm: String) {
         ServiceManager.authenticationService
                 .register(RegistrationRequest(UserRegistration(email, password, passwordConfirm)))

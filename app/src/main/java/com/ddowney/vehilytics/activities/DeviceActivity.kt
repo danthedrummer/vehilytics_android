@@ -3,7 +3,6 @@ package com.ddowney.vehilytics.activities
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.util.Log
 import android.widget.TextView
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
@@ -13,9 +12,12 @@ import com.ddowney.vehilytics.models.Device
 import com.ddowney.vehilytics.services.ServiceManager
 import kotlinx.android.synthetic.main.activity_device.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * This is the device manager activity where a user can attach
+ * and detach a device from their account.
+ */
 class DeviceActivity : DanCompatActivity() {
 
     companion object {
@@ -63,6 +65,12 @@ class DeviceActivity : DanCompatActivity() {
         }
     }
 
+    /**
+     * Creates a snackbar message that pops up from the bottom of
+     * the screen
+     *
+     * @param message: The message to be displayed
+     */
     private fun makeSnackText(message: String) {
         val snack = Snackbar.make(device_layout, message, Snackbar.LENGTH_LONG)
         snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
@@ -70,6 +78,10 @@ class DeviceActivity : DanCompatActivity() {
         snack.show()
     }
 
+    /**
+     * Requests information about the device attached to the current user.
+     * Updates the UI to display the name once there is a response.
+     */
     private fun getDeviceInfo() {
         ServiceManager.deviceService.getDeviceInfo(Vehilytics.user.email, Vehilytics.user.token)
                 .enqueue(object: VehilyticsCallback<Device>(baseContext) {
@@ -95,10 +107,20 @@ class DeviceActivity : DanCompatActivity() {
                 })
     }
 
+    /**
+     * Makes a request to the web service to attach a device to a user.
+     *
+     * The result of this request is that the device will be attached
+     * to the user if it exists or a message will be displayed to describe
+     * what went wrong.
+     *
+     * @param deviceNameToAttach: The name of the device to be attached to the user
+     */
     private fun attachDevice(deviceNameToAttach: String) {
         ServiceManager.deviceService.attachDeviceToUser(Vehilytics.user.email, Vehilytics.user.token, deviceNameToAttach)
                 .enqueue(object: VehilyticsCallback<Device>(baseContext) {
                     override fun onResponse(call: Call<Device>?, response: Response<Device>?) {
+                        super.onResponse(call, response)
                         when (response?.code()) {
                             201 -> {
                                 val deviceName = response.body()?.deviceName ?: ""
@@ -117,10 +139,16 @@ class DeviceActivity : DanCompatActivity() {
                 })
     }
 
+    /**
+     * Makes a request to detach the current device from the user
+     *
+     * @param deviceName: The name of the current user device that they want detached
+     */
     private fun detachDevice(deviceName: String) {
         ServiceManager.deviceService.detachDeviceFromUser(Vehilytics.user.email, Vehilytics.user.token, deviceName)
                 .enqueue(object: VehilyticsCallback<Void>(baseContext) {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                        super.onResponse(call, response)
                         when (response?.code()) {
                             200 -> {
                                 device_name_text.text = getString(R.string.none)

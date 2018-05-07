@@ -16,6 +16,10 @@ import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * The login activity provides a way for a user to gain access to the
+ * application features if they have already registered an account.
+ */
 class LoginActivity : AppCompatActivity() {
 
     companion object {
@@ -50,6 +54,14 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Makes a request to sign in. The response contain the user authentication
+     * token if the credentials were valid, or a warning will display that there
+     * was an error
+     *
+     * @param email: The user email
+     * @param password: The user password
+     */
     private fun login(email: String, password: String) {
         ServiceManager.authenticationService.login(email, password)
                 .enqueue(object: VehilyticsCallback<LoginResponse>(baseContext) {

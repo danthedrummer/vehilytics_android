@@ -6,6 +6,9 @@ import com.ddowney.vehilytics.models.UpdateSensorsRequest
 import retrofit2.Call
 import retrofit2.http.*
 
+/**
+ * This service handles endpoints relating to sensor information and preferences
+ */
 interface SensorsService {
 
     @GET("v1/sensors")

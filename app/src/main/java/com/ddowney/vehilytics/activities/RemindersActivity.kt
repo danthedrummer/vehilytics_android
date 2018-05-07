@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.adapters.RemindersAdapter
@@ -19,6 +18,10 @@ import retrofit2.Call
 import retrofit2.Response
 import java.util.*
 
+/**
+ * The reminders activity provides a way for a user to quickly create
+ * recurring reminders in their calendar to perform vehicle maintenance
+ */
 class RemindersActivity : DanCompatActivity() {
 
     companion object {
@@ -40,12 +43,18 @@ class RemindersActivity : DanCompatActivity() {
 
     }
 
+    /**
+     * Hides loading bars and displays main content
+     */
     private fun displayMainContent() {
         updateAdapter()
         reminders_content_loading.visibility = View.GONE
         reminders_recycler.visibility = View.VISIBLE
     }
 
+    /**
+     * Updates the recycler view adapter with the new reminderList
+     */
     private fun updateAdapter() {
         remindersAdapter = RemindersAdapter(reminderList, object: RecyclerViewClickListener {
             override fun onItemClicked(position: Int) {
@@ -57,6 +66,12 @@ class RemindersActivity : DanCompatActivity() {
         reminders_recycler.hasPendingAdapterUpdates()
     }
 
+    /**
+     * Triggers the calendar app to open for creating a new reminder populated
+     * with fields from the selected option
+     *
+     * @param reminder: The selected reminder to populate the Calendar entry
+     */
     private fun createCalendarReminder(reminder: Reminder) {
         val calendar = Calendar.getInstance()
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
@@ -72,11 +87,15 @@ class RemindersActivity : DanCompatActivity() {
         startActivity(intent)
     }
 
+    /**
+     * Makes a request to get a suggested reminder list from the web service
+     */
     private fun getRemindersList() {
         ServiceManager.remindersService.getRemindersList()
                 .enqueue(object : VehilyticsCallback<List<Reminder>>(baseContext) {
                     override fun onResponse(call: Call<List<Reminder>>?,
                                             response: Response<List<Reminder>>?) {
+                        super.onResponse(call, response)
                         reminderList = response?.body() ?: listOf()
                         displayMainContent()
                     }

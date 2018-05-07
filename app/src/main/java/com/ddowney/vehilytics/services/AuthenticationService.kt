@@ -7,6 +7,9 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
+/**
+ * This service handles all of the user authentication endpoints
+ */
 interface AuthenticationService {
 
     @FormUrlEncoded

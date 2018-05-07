@@ -4,6 +4,10 @@ import com.ddowney.vehilytics.models.Device
 import retrofit2.Call
 import retrofit2.http.*
 
+/**
+ * This service handles all of the user facing endpoints
+ * relating to the diagnostic reader
+ */
 interface DeviceService {
 
     @GET("v1/devices")

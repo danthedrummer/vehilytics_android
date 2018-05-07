@@ -18,6 +18,10 @@ import kotlinx.android.synthetic.main.activity_vehicle.*
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * This activity shows the user the list of currently reported sensors and
+ * lets them choose which sensor they would like to see graphed.
+ */
 class VehicleActivity : DanCompatActivity() {
 
     companion object {
@@ -41,12 +45,18 @@ class VehicleActivity : DanCompatActivity() {
         getReportedSensors()
     }
 
+    /**
+     * Hides the loading bar and displays the main content
+     */
     fun displayMainContent() {
         vehicle_content_loading.visibility = View.GONE
         vehicle_sensors_recycler.visibility = View.VISIBLE
         updateAdapter()
     }
 
+    /**
+     * Updates the recycler view with the new vehiclesSensors list
+     */
     private fun updateAdapter() {
         vehicleSensorsAdapter = VehicleSensorsAdapter(vehicleSensors, warnings, errors,
                 object: RecyclerViewClickListener {
@@ -61,11 +71,16 @@ class VehicleActivity : DanCompatActivity() {
         vehicle_sensors_recycler.hasPendingAdapterUpdates()
     }
 
+    /**
+     * Makes a request to get a list of all sensors that have been reported by the
+     * current user's device
+     */
     private fun getReportedSensors() {
         ServiceManager.sensorsService.getReportedSensors(Vehilytics.user.email, Vehilytics.user.token)
                 .enqueue(object: VehilyticsCallback<ReportedSensorsResponse>(baseContext) {
                     override fun onResponse(call: Call<ReportedSensorsResponse>?,
                                             response: Response<ReportedSensorsResponse>?) {
+                        super.onResponse(call, response)
                         vehicleSensors = response?.body()?.sensors ?: listOf()
                         warnings = response?.body()?.warnings ?: listOf()
                         errors = response?.body()?.errors ?: listOf()

@@ -6,6 +6,9 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
+/**
+ * This service handles all of the endpoints for retrieving sensor data
+ */
 interface ReadingsService {
 
     @GET("v1/readings")

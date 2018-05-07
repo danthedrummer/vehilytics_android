@@ -5,6 +5,9 @@ import com.ddowney.vehilytics.Vehilytics
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+/**
+ * This class handles writing, reading, and removing of objects to Shared Preferences
+ */
 class Storage(val context: Context) {
 
     companion object {
@@ -41,6 +44,11 @@ class Storage(val context: Context) {
         return gson.fromJson(storedString, token.type)
     }
 
+    /**
+     * Removes the specified key from Shared Preferences
+     *
+     * @param key: The key to be removed
+     */
     fun removeKeyFromStorage(key: String) {
         val editor = sharedPrefs.edit()
         editor.remove(key)

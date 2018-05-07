@@ -50,6 +50,9 @@ open class DanCompatActivity: AppCompatActivity() {
         }
     }
 
+    /**
+     * Makes a request to sign out the current user, resetting their authentication token
+     */
     private fun logoutRequest() {
         ServiceManager.authenticationService.logout(Vehilytics.user.email, Vehilytics.user.token)
                 .enqueue(object : VehilyticsCallback<Void>(baseContext) {
@@ -59,6 +62,7 @@ open class DanCompatActivity: AppCompatActivity() {
                     }
 
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                        super.onResponse(call, response)
                         if (response?.code() == 200) {
                             Log.d(LOG_TAG, "Successfully logged out")
                         } else {
@@ -69,6 +73,10 @@ open class DanCompatActivity: AppCompatActivity() {
                 })
     }
 
+    /**
+     * Removes all user credentials from the device, forcing a login next time
+     * the application is started
+     */
     private fun logoutLocal() {
         Vehilytics.clearAll(Storage(baseContext))
         val intent = Intent(baseContext, LoginActivity::class.java)

@@ -10,6 +10,9 @@ import com.ddowney.vehilytics.models.Reminder
 import kotlinx.android.synthetic.main.reminder_item_view.view.*
 import java.lang.ref.WeakReference
 
+/**
+ * Adapter for the reminders recycler view
+ */
 class RemindersAdapter(private val data: List<Reminder>,
                                private val listener: RecyclerViewClickListener)
     : RecyclerView.Adapter<RemindersAdapter.ViewHolder>() {

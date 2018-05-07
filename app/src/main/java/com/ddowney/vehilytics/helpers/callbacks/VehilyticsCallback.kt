@@ -10,6 +10,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Special callback that provides simple onFailure functionality so it doesn't
+ * need to be overridden every time a request is made.
+ *
+ * Also forces a logout whenever any request returns a status code 401.
+ */
 abstract class VehilyticsCallback<T>(val context: Context): Callback<T> {
 
     companion object {

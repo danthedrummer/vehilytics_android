@@ -3,6 +3,10 @@ package com.ddowney.vehilytics.services
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Provides access to a retrofit instance for performing requests
+ * to the vehilytics api.
+ */
 object ServiceManager {
 
     private val retrofit: Retrofit = Retrofit.Builder()
