@@ -2,6 +2,7 @@ package com.ddowney.vehilytics.activities
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
@@ -71,7 +72,7 @@ class GraphReadingActivity : DanCompatActivity() {
                 super.onResponse(call, response)
                 readings = response?.body()?.readings ?: listOf()
                 readings_info.text = response?.body()?.info ?: "No info provided"
-                populateGraph()
+                populateGraph(response?.body()?.upperRange, response?.body()?.lowerRange)
                 displayMainContent()
             }
         })
@@ -80,12 +81,25 @@ class GraphReadingActivity : DanCompatActivity() {
     /**
      * Populates the graph with the information retrieved from the server
      */
-    private fun populateGraph() {
+    private fun populateGraph(upperRange: Float?, lowerRange: Float?) {
         val graphEntries: MutableList<Entry> = mutableListOf()
+        val upperRangeEntries: MutableList<Entry> = mutableListOf()
+        val lowerRangeEntries: MutableList<Entry> = mutableListOf()
+
+        Log.d(LOG_TAG, "upper = $upperRange")
+        Log.d(LOG_TAG, "lower = $lowerRange")
 
         readings.forEach { reading ->
             graphEntries.add(Entry(graphEntries.size.toFloat(), reading.value.toFloat()))
+            if (upperRange != null) {
+                upperRangeEntries.add(Entry(upperRangeEntries.size.toFloat(), upperRange))
+            }
+            if (lowerRange != null) {
+                lowerRangeEntries.add(Entry(lowerRangeEntries.size.toFloat(), lowerRange))
+            }
         }
+
+        Log.d(LOG_TAG, "${graphEntries.size}, ${upperRangeEntries.size}, ${lowerRangeEntries.size}")
 
         val setActual = LineDataSet(graphEntries, "Actual")
         setActual.axisDependency = YAxis.AxisDependency.LEFT
@@ -93,9 +107,34 @@ class GraphReadingActivity : DanCompatActivity() {
         setActual.circleColors = listOf(ContextCompat.getColor(this, R.color.colorAccent))
         setActual.lineWidth = 2f
         setActual.circleRadius = 3f
-        setActual.fillAlpha = 65
+        setActual.fillAlpha = 90
 
-        val data = LineData(setActual)
+        val setUpper = LineDataSet(upperRangeEntries, "Upper Limit")
+        setUpper.axisDependency = YAxis.AxisDependency.LEFT
+        setUpper.color = ContextCompat.getColor(this, R.color.colorError)
+        setUpper.circleColors = listOf(ContextCompat.getColor(this, R.color.colorError))
+        setUpper.lineWidth = 1f
+        setUpper.circleRadius = 1f
+        setUpper.fillAlpha = 45
+
+        val setLower = LineDataSet(lowerRangeEntries, "Lower Limit")
+        setLower.axisDependency = YAxis.AxisDependency.LEFT
+        setLower.color = ContextCompat.getColor(this, R.color.colorErrorLight)
+        setLower.circleColors = listOf(ContextCompat.getColor(this, R.color.colorErrorLight))
+        setLower.lineWidth = 1f
+        setLower.circleRadius = 1f
+        setLower.fillAlpha = 45
+
+        val data = if (upperRange == null && lowerRange == null) {
+            LineData(setActual)
+        } else if (upperRange == null) {
+            LineData(setActual, setLower)
+        } else if (lowerRange == null) {
+            LineData(setActual, setUpper)
+        } else {
+            LineData(setActual, setUpper, setLower)
+        }
+
         data.setValueTextColor(R.color.colorDivider)
         data.setValueTextSize(9f)
 
