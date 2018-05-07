@@ -112,4 +112,9 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="InformationText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
 </resources>

@@ -11,7 +11,7 @@
         android:id="@+id/reminders_toolbar"
         app:titleTextColor="@color/colorIcons"
         app:popupTheme="@style/PopupMenuStyle"
-        app:title="Reminders"
+        app:title="Set Reminders"
         style="@style/MainToolbar"/>
 
     <ProgressBar

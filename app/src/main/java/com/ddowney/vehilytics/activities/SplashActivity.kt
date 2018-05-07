@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
         validateUser()
 
         runnable = Runnable {
-            startActivity(intent)
+            startActivity(Intent(baseContext, LoginActivity::class.java))
             finish()
         }
 

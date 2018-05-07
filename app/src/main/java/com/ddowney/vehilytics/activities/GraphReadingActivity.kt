@@ -45,13 +45,12 @@ class GraphReadingActivity : DanCompatActivity() {
         setSupportActionBar(graph_reading_toolbar)
 
         getReadingsForSensor()
-
-        //TODO: fill out bottom half of layout
     }
 
     private fun displayMainContent() {
         graph_content_loading.visibility = View.GONE
         graph_wrapper.visibility = View.VISIBLE
+        readings_info_wrapper.visibility = View.VISIBLE
     }
 
     private fun getReadingsForSensor() {
@@ -59,6 +58,7 @@ class GraphReadingActivity : DanCompatActivity() {
                 sensor.shortname).enqueue(object: VehilyticsCallback<ReadingsResponse>(baseContext) {
             override fun onResponse(call: Call<ReadingsResponse>?, response: Response<ReadingsResponse>?) {
                 readings = response?.body()?.readings ?: listOf()
+                readings_info.text = response?.body()?.info ?: "No info provided"
                 populateGraph()
                 displayMainContent()
             }

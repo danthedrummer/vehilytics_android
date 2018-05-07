@@ -36,4 +36,27 @@
 
     </FrameLayout>
 
+    <ScrollView
+        android:id="@+id/readings_info_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/graph_wrapper"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:padding="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:background="@drawable/text_field_wrapper"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/readings_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/InformationText"/>
+
+    </ScrollView>
+
 </RelativeLayout>

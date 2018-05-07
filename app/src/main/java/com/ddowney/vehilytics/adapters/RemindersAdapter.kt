@@ -20,7 +20,7 @@ class RemindersAdapter(private val data: List<Reminder>,
         private val listenerRef: WeakReference<RecyclerViewClickListener> = WeakReference(listener)
 
         fun bindSensorModel(reminder: Reminder) {
-            val title = "Set Reminder: ${reminder.title}"
+            val title = reminder.title
             var frequency = "Every "
             frequency += when {
                 reminder.weeklyFrequency == 1 -> "${reminder.weeklyFrequency} week"
