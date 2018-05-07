@@ -1,11 +1,15 @@
 package com.ddowney.vehilytics.activities
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.TextView
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.adapters.RemindersAdapter
 import com.ddowney.vehilytics.helpers.DanCompatActivity
@@ -26,6 +30,7 @@ class RemindersActivity : DanCompatActivity() {
 
     companion object {
         private const val LOG_TAG = "RemindersActivity"
+        private const val CREATE_REMINDER = 1
     }
 
     private lateinit var remindersAdapter: RemindersAdapter
@@ -84,7 +89,7 @@ class RemindersActivity : DanCompatActivity() {
         intent.putExtra(Events.RRULE, "FREQ=WEEKLY;INTERVAL=${reminder.weeklyFrequency}")
         intent.putExtra(Events.TITLE, reminder.title)
         intent.putExtra(Events.DESCRIPTION, reminder.description)
-        startActivity(intent)
+        startActivityForResult(intent, CREATE_REMINDER)
     }
 
     /**
@@ -100,5 +105,29 @@ class RemindersActivity : DanCompatActivity() {
                         displayMainContent()
                     }
                 })
+    }
+
+    /**
+     * Creates a snackbar message that pops up from the bottom of
+     * the screen
+     *
+     * @param message: The message to be displayed
+     */
+    private fun makeSnackText(message: String) {
+        val snack = Snackbar.make(reminders_layout, message, Snackbar.LENGTH_LONG)
+        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+                .setTextColor(Color.WHITE)
+        snack.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CREATE_REMINDER) {
+            if (resultCode == Activity.RESULT_OK) {
+                makeSnackText("Reminder created")
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                makeSnackText("Reminder cancelled")
+            }
+        }
     }
 }

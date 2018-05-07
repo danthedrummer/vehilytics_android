@@ -1,9 +1,14 @@
 package com.ddowney.vehilytics.activities
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.adapters.SensorPreferencesAdapter
@@ -161,12 +166,29 @@ class PreferencesActivity : DanCompatActivity() {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         super.onResponse(call, response)
                         when (response?.code()) {
-                            201 -> finish()
+                            201 -> {
+                                setResult(Activity.RESULT_OK)
+                                finish()
+                            }
                             else -> {
                                 Log.d(LOG_TAG, "There was an issue with the request: ${response?.code()}")
+                                makeSnackText("Problem updating preferences")
                             }
                         }
                     }
                 })
+    }
+
+    /**
+     * Creates a snackbar message that pops up from the bottom of
+     * the screen
+     *
+     * @param message: The message to be displayed
+     */
+    private fun makeSnackText(message: String) {
+        val snack = Snackbar.make(preferences_layout, message, Snackbar.LENGTH_LONG)
+        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+                .setTextColor(Color.WHITE)
+        snack.show()
     }
 }
