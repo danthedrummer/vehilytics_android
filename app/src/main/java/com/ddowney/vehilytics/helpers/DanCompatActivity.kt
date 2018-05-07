@@ -52,7 +52,7 @@ open class DanCompatActivity: AppCompatActivity() {
 
     private fun logoutRequest() {
         ServiceManager.authenticationService.logout(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object : VehilyticsCallback<Void>() {
+                .enqueue(object : VehilyticsCallback<Void>(baseContext) {
                     override fun onFailure(call: Call<Void>?, t: Throwable?) {
                         super.onFailure(call, t)
                         logoutLocal()

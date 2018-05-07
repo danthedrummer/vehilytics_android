@@ -72,10 +72,10 @@ class DeviceActivity : DanCompatActivity() {
 
     private fun getDeviceInfo() {
         ServiceManager.deviceService.getDeviceInfo(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object: VehilyticsCallback<Device>() {
-                    override fun onResponse(call: Call<Device>, response: Response<Device>) {
-                        Log.d(LOG_TAG, "code = ${response.code()}")
-                        when (response.code()) {
+                .enqueue(object: VehilyticsCallback<Device>(baseContext) {
+                    override fun onResponse(call: Call<Device>?, response: Response<Device>?) {
+                        super.onResponse(call, response)
+                        when (response?.code()) {
                             400 -> {
                                 makeSnackText(getString(R.string.no_device_attached))
                             }
@@ -97,7 +97,7 @@ class DeviceActivity : DanCompatActivity() {
 
     private fun attachDevice(deviceNameToAttach: String) {
         ServiceManager.deviceService.attachDeviceToUser(Vehilytics.user.email, Vehilytics.user.token, deviceNameToAttach)
-                .enqueue(object: VehilyticsCallback<Device>() {
+                .enqueue(object: VehilyticsCallback<Device>(baseContext) {
                     override fun onResponse(call: Call<Device>?, response: Response<Device>?) {
                         when (response?.code()) {
                             201 -> {
@@ -119,7 +119,7 @@ class DeviceActivity : DanCompatActivity() {
 
     private fun detachDevice(deviceName: String) {
         ServiceManager.deviceService.detachDeviceFromUser(Vehilytics.user.email, Vehilytics.user.token, deviceName)
-                .enqueue(object: VehilyticsCallback<Void>() {
+                .enqueue(object: VehilyticsCallback<Void>(baseContext) {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         when (response?.code()) {
                             200 -> {

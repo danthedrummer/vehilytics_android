@@ -79,7 +79,7 @@ class PreferencesActivity : DanCompatActivity() {
 
     private fun getSupportedSensors() {
         ServiceManager.sensorsService.getAllSensors()
-                .enqueue(object: VehilyticsCallback<List<Sensor>>() {
+                .enqueue(object: VehilyticsCallback<List<Sensor>>(baseContext) {
                     override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
                         when (response?.code()) {
                             200 -> {
@@ -101,7 +101,7 @@ class PreferencesActivity : DanCompatActivity() {
     private fun getSensorPreferences() {
         ServiceManager.sensorsService.getRequestedSensors(Vehilytics.user.email,
                 Vehilytics.user.token, "requestedSensors")
-                .enqueue(object: VehilyticsCallback<List<Sensor>>() {
+                .enqueue(object: VehilyticsCallback<List<Sensor>>(baseContext) {
 
                     override fun onResponse(call: Call<List<Sensor>>?, response: Response<List<Sensor>>?) {
                         when (response?.code()) {
@@ -134,7 +134,7 @@ class PreferencesActivity : DanCompatActivity() {
 
         ServiceManager.sensorsService.updateRequestedSensors(Vehilytics.user.email,
                 Vehilytics.user.token, UpdateSensorsRequest(preferences))
-                .enqueue(object: VehilyticsCallback<Void>() {
+                .enqueue(object: VehilyticsCallback<Void>(baseContext) {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         when (response?.code()) {
                             201 -> finish()

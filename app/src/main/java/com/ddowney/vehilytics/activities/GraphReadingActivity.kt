@@ -2,6 +2,7 @@ package com.ddowney.vehilytics.activities
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.DanCompatActivity
@@ -44,14 +45,22 @@ class GraphReadingActivity : DanCompatActivity() {
         setSupportActionBar(graph_reading_toolbar)
 
         getReadingsForSensor()
+
+        //TODO: fill out bottom half of layout
+    }
+
+    private fun displayMainContent() {
+        graph_content_loading.visibility = View.GONE
+        graph_wrapper.visibility = View.VISIBLE
     }
 
     private fun getReadingsForSensor() {
         ServiceManager.readingsService.getReadingsForSensor(Vehilytics.user.email, Vehilytics.user.token,
-                sensor.shortname).enqueue(object: VehilyticsCallback<ReadingsResponse>() {
+                sensor.shortname).enqueue(object: VehilyticsCallback<ReadingsResponse>(baseContext) {
             override fun onResponse(call: Call<ReadingsResponse>?, response: Response<ReadingsResponse>?) {
                 readings = response?.body()?.readings ?: listOf()
                 populateGraph()
+                displayMainContent()
             }
         })
     }

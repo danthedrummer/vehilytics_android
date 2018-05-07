@@ -52,16 +52,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(email: String, password: String) {
         ServiceManager.authenticationService.login(email, password)
-                .enqueue(object: VehilyticsCallback<LoginResponse>() {
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                        if (response.code() == 201) {
+                .enqueue(object: VehilyticsCallback<LoginResponse>(baseContext) {
+                    override fun onResponse(call: Call<LoginResponse>?, response: Response<LoginResponse>?) {
+                        if (response?.code() == 201) {
                             Vehilytics.user = User(response.body()?.email ?: "",
                                     response.body()?.token ?: "")
                             Vehilytics.storeUser(baseContext)
                             val intent = Intent(baseContext, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
-                        } else if (response.code() == 401) {
+                        } else if (response?.code() == 401) {
                             Log.d(LOG_TAG, "Invalid Credentials")
                             error_text.text = getString(R.string.email_or_password_invalid)
                             error_text.visibility = View.VISIBLE
@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validate() {
         ServiceManager.authenticationService.validate("dan@example.com", "some_token")
-                .enqueue(object: VehilyticsCallback<Void>() {
+                .enqueue(object: VehilyticsCallback<Void>(baseContext) {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
                         Log.d(LOG_TAG, "Validate code: ${response?.code()}")
                     }

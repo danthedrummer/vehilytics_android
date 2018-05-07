@@ -14,10 +14,16 @@
         app:title="Reminders"
         style="@style/MainToolbar"/>
 
+    <ProgressBar
+        android:id="@+id/reminders_content_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reminders_recycler"
         android:layout_below="@id/reminders_toolbar"
-        android:visibility="visible"
+        android:visibility="gone"
         style="@style/RecyclerStyle"/>
 
 </RelativeLayout>

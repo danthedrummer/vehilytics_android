@@ -13,11 +13,19 @@
         app:popupTheme="@style/PopupMenuStyle"
         style="@style/MainToolbar"/>
 
+    <ProgressBar
+        android:id="@+id/graph_content_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
     <FrameLayout
+        android:id="@+id/graph_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/graph_reading_toolbar"
-        android:background="@color/colorIcons">
+        android:background="@color/colorIcons"
+        android:visibility="gone">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/readings_chart"

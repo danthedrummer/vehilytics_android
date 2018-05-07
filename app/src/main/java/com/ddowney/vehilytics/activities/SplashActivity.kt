@@ -33,22 +33,32 @@ class SplashActivity : AppCompatActivity() {
 
         validateUser()
 
+        runnable = Runnable {
+            startActivity(intent)
+            finish()
+        }
+
+        handler.postDelayed(runnable, 2000)
+
     }
 
     private fun validateUser() {
         ServiceManager.authenticationService.validate(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object: VehilyticsCallback<Void>() {
+                .enqueue(object: VehilyticsCallback<Void>(baseContext) {
                     override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                        handler.removeCallbacks(runnable)
+
                         val intent = when (response?.code()) {
                             200 -> Intent(baseContext, HomeActivity::class.java)
                             else -> Intent(baseContext, LoginActivity::class.java)
                         }
+
                         runnable = Runnable {
                             startActivity(intent)
                             finish()
                         }
 
-                        handler.postDelayed(runnable, 3000)
+                        handler.postDelayed(runnable, 1000)
 
                         splash_image.setOnClickListener {
                             handler.removeCallbacks(runnable)

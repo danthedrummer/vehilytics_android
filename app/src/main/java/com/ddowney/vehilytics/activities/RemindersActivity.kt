@@ -6,6 +6,7 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.adapters.RemindersAdapter
 import com.ddowney.vehilytics.helpers.DanCompatActivity
@@ -39,6 +40,23 @@ class RemindersActivity : DanCompatActivity() {
 
     }
 
+    private fun displayMainContent() {
+        updateAdapter()
+        reminders_content_loading.visibility = View.GONE
+        reminders_recycler.visibility = View.VISIBLE
+    }
+
+    private fun updateAdapter() {
+        remindersAdapter = RemindersAdapter(reminderList, object: RecyclerViewClickListener {
+            override fun onItemClicked(position: Int) {
+                createCalendarReminder(reminderList[position])
+            }
+
+        })
+        reminders_recycler.adapter = remindersAdapter
+        reminders_recycler.hasPendingAdapterUpdates()
+    }
+
     private fun createCalendarReminder(reminder: Reminder) {
         val calendar = Calendar.getInstance()
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
@@ -54,24 +72,13 @@ class RemindersActivity : DanCompatActivity() {
         startActivity(intent)
     }
 
-    private fun updateAdapter() {
-        remindersAdapter = RemindersAdapter(reminderList, object: RecyclerViewClickListener {
-            override fun onItemClicked(position: Int) {
-                createCalendarReminder(reminderList[position])
-            }
-
-        })
-        reminders_recycler.adapter = remindersAdapter
-        reminders_recycler.hasPendingAdapterUpdates()
-    }
-
     private fun getRemindersList() {
         ServiceManager.remindersService.getRemindersList()
-                .enqueue(object : VehilyticsCallback<List<Reminder>>() {
+                .enqueue(object : VehilyticsCallback<List<Reminder>>(baseContext) {
                     override fun onResponse(call: Call<List<Reminder>>?,
                                             response: Response<List<Reminder>>?) {
                         reminderList = response?.body() ?: listOf()
-                        updateAdapter()
+                        displayMainContent()
                     }
                 })
     }

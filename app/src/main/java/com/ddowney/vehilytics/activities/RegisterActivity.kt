@@ -62,14 +62,14 @@ class RegisterActivity : AppCompatActivity() {
     private fun register(email: String, password: String, passwordConfirm: String) {
         ServiceManager.authenticationService
                 .register(RegistrationRequest(UserRegistration(email, password, passwordConfirm)))
-                .enqueue(object: VehilyticsCallback<RegistrationResponse>() {
-                    override fun onResponse(call: Call<RegistrationResponse>, response: Response<RegistrationResponse>) {
-                        if (response.code() == 201) {
+                .enqueue(object: VehilyticsCallback<RegistrationResponse>(baseContext) {
+                    override fun onResponse(call: Call<RegistrationResponse>?, response: Response<RegistrationResponse>?) {
+                        if (response?.code() == 201) {
                             Vehilytics.user = User(email , response.body()?.token ?: "")
                             val intent = Intent(baseContext, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
-                        } else if (response.code() == 401) {
+                        } else if (response?.code() == 401) {
                             Log.d(LOG_TAG, "Problem registering. Code: ${response.code()}")
                             error_text.text = getString(R.string.email_in_use_error)
                             error_text.visibility = View.VISIBLE

@@ -27,8 +27,8 @@ class VehicleActivity : DanCompatActivity() {
     private lateinit var vehicleSensorsAdapter: VehicleSensorsAdapter
     private var vehicleSensors: List<Sensor> = listOf()
 
-    private var warnings: List<String> = listOf()
-    private var errors: List<String> = listOf()
+    private var warnings: List<String> = listOf("fuel_level")
+    private var errors: List<String> = listOf("temp")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,6 @@ class VehicleActivity : DanCompatActivity() {
         vehicle_sensors_recycler.layoutManager = LinearLayoutManager(this)
 
         getReportedSensors()
-
     }
 
     fun displayMainContent() {
@@ -64,7 +63,7 @@ class VehicleActivity : DanCompatActivity() {
 
     private fun getReportedSensors() {
         ServiceManager.sensorsService.getReportedSensors(Vehilytics.user.email, Vehilytics.user.token)
-                .enqueue(object: VehilyticsCallback<ReportedSensorsResponse>() {
+                .enqueue(object: VehilyticsCallback<ReportedSensorsResponse>(baseContext) {
                     override fun onResponse(call: Call<ReportedSensorsResponse>?,
                                             response: Response<ReportedSensorsResponse>?) {
                         vehicleSensors = response?.body()?.sensors ?: listOf()
