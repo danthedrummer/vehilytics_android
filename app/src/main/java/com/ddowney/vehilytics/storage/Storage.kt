@@ -1,6 +1,7 @@
 package com.ddowney.vehilytics.storage
 
 import android.content.Context
+import com.ddowney.vehilytics.Vehilytics
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

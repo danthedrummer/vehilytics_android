@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.activities.LoginActivity
+import com.ddowney.vehilytics.storage.Storage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +22,7 @@ abstract class VehilyticsCallback<T>(val context: Context): Callback<T> {
 
     override fun onResponse(call: Call<T>?, response: Response<T>?) {
         if (response?.code() == 401) {
-            Vehilytics.clearAll(context)
+            Vehilytics.clearAll(Storage(context))
             val intent = Intent(context, LoginActivity::class.java)
             intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
                     or Intent.FLAG_ACTIVITY_CLEAR_TOP

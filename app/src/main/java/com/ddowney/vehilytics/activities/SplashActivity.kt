@@ -4,15 +4,13 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
-import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.services.ServiceManager
+import com.ddowney.vehilytics.storage.Storage
 import kotlinx.android.synthetic.main.activity_splash.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
 class SplashActivity : AppCompatActivity() {
@@ -29,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        Vehilytics.retrieveUserFromStorage(baseContext)
+        Vehilytics.retrieveUserFromStorage(Storage(baseContext))
 
         validateUser()
 

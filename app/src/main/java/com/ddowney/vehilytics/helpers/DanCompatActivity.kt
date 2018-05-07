@@ -11,8 +11,8 @@ import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.activities.LoginActivity
 import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
 import com.ddowney.vehilytics.services.ServiceManager
+import com.ddowney.vehilytics.storage.Storage
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
 /**
@@ -70,7 +70,7 @@ open class DanCompatActivity: AppCompatActivity() {
     }
 
     private fun logoutLocal() {
-        Vehilytics.clearAll(baseContext)
+        Vehilytics.clearAll(Storage(baseContext))
         val intent = Intent(baseContext, LoginActivity::class.java)
         intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK
                 or Intent.FLAG_ACTIVITY_CLEAR_TOP
