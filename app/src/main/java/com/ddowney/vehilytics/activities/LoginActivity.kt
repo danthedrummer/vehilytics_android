@@ -8,6 +8,7 @@ import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.helpers.callbacks.VehilyticsCallback
+import com.ddowney.vehilytics.models.LoginRequest
 import com.ddowney.vehilytics.models.LoginResponse
 import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.services.ServiceManager
@@ -63,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
      * @param password: The user password
      */
     private fun login(email: String, password: String) {
-        ServiceManager.authenticationService.login(email, password)
+        ServiceManager.authenticationService.login(LoginRequest(email, password, Vehilytics.firebaseToken))
                 .enqueue(object: VehilyticsCallback<LoginResponse>(baseContext) {
                     override fun onResponse(call: Call<LoginResponse>?, response: Response<LoginResponse>?) {
                         if (response?.code() == 201) {

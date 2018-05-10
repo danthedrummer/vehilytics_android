@@ -1,9 +1,9 @@
 package com.ddowney.vehilytics.services
 
+import com.ddowney.vehilytics.models.LoginRequest
 import com.ddowney.vehilytics.models.LoginResponse
 import com.ddowney.vehilytics.models.RegistrationRequest
 import com.ddowney.vehilytics.models.RegistrationResponse
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -12,10 +12,8 @@ import retrofit2.http.*
  */
 interface AuthenticationService {
 
-    @FormUrlEncoded
     @POST("v1/sessions")
-    fun login(@Field("email") email: String,
-              @Field("password") password: String): Call<LoginResponse>
+    fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
     @DELETE("v1/sessions")
     fun logout(@Header("X-User-Email") email: String,

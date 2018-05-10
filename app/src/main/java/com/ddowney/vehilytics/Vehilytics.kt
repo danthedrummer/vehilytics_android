@@ -4,6 +4,7 @@ import com.ddowney.vehilytics.models.Device
 import com.ddowney.vehilytics.models.Sensor
 import com.ddowney.vehilytics.models.User
 import com.ddowney.vehilytics.storage.Storage
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.reflect.TypeToken
 
 /**
@@ -17,6 +18,8 @@ object Vehilytics {
     var user = User("", "")
     var device = Device("", "")
     var sensorPreferences = mapOf<String, Sensor>()
+
+    var firebaseToken = FirebaseInstanceId.getInstance().token ?: ""
 
     /**
      * Clears the current user info
