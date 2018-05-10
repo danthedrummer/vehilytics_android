@@ -171,23 +171,10 @@ class PreferencesActivity : DanCompatActivity() {
                             }
                             else -> {
                                 Log.d(LOG_TAG, "There was an issue with the request: ${response?.code()}")
-                                makeSnackText("Problem updating preferences")
+                                makeSnackText("Problem updating preferences", preferences_layout)
                             }
                         }
                     }
                 })
-    }
-
-    /**
-     * Creates a snackbar message that pops up from the bottom of
-     * the screen
-     *
-     * @param message: The message to be displayed
-     */
-    private fun makeSnackText(message: String) {
-        val snack = Snackbar.make(preferences_layout, message, Snackbar.LENGTH_LONG)
-        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
-                .setTextColor(Color.WHITE)
-        snack.show()
     }
 }

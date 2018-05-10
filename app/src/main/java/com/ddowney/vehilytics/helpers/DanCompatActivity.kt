@@ -2,10 +2,14 @@ package com.ddowney.vehilytics.helpers
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
 import com.ddowney.vehilytics.activities.LoginActivity
@@ -85,5 +89,19 @@ open class DanCompatActivity: AppCompatActivity() {
                 or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
+    }
+
+    /**
+     * Creates a snackbar message that pops up from the bottom of
+     * the screen
+     *
+     * @param message: The message to be displayed
+     * @param view: The view to display the snackbar
+     */
+    protected fun makeSnackText(message: String, view: View) {
+        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+                .setTextColor(Color.WHITE)
+        snack.show()
     }
 }

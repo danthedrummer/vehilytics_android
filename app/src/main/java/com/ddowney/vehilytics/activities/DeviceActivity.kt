@@ -35,12 +35,12 @@ class DeviceActivity : DanCompatActivity() {
             val deviceName = device_name_field.text.toString()
 
             if (deviceName.isEmpty()) {
-                makeSnackText(getString(R.string.invalid_device_name))
+                makeSnackText(getString(R.string.invalid_device_name), device_layout)
                 return@setOnClickListener
             }
 
             if (!Vehilytics.device.deviceName.isEmpty()) {
-                makeSnackText(getString(R.string.device_already_attached))
+                makeSnackText(getString(R.string.device_already_attached), device_layout)
                 return@setOnClickListener
             }
 
@@ -50,32 +50,19 @@ class DeviceActivity : DanCompatActivity() {
 
         detach_device_button.setOnClickListener {
             if (Vehilytics.device.deviceName == "") {
-                makeSnackText(getString(R.string.no_device_attached))
+                makeSnackText(getString(R.string.no_device_attached), device_layout)
                 return@setOnClickListener
             }
 
             val deviceName = device_name_field.text.toString()
             if (deviceName.isEmpty() || deviceName != Vehilytics.device.deviceName) {
-                makeSnackText(getString(R.string.invalid_device_name))
+                makeSnackText(getString(R.string.invalid_device_name), device_layout)
                 return@setOnClickListener
             }
 
             detachDevice(deviceName)
             device_name_field.text.clear()
         }
-    }
-
-    /**
-     * Creates a snackbar message that pops up from the bottom of
-     * the screen
-     *
-     * @param message: The message to be displayed
-     */
-    private fun makeSnackText(message: String) {
-        val snack = Snackbar.make(device_layout, message, Snackbar.LENGTH_LONG)
-        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
-                .setTextColor(Color.WHITE)
-        snack.show()
     }
 
     /**
@@ -89,7 +76,7 @@ class DeviceActivity : DanCompatActivity() {
                         super.onResponse(call, response)
                         when (response?.code()) {
                             400 -> {
-                                makeSnackText(getString(R.string.no_device_attached))
+                                makeSnackText(getString(R.string.no_device_attached), device_layout)
                             }
                             200 -> {
                                 val deviceName = response.body()?.deviceName ?: ""
@@ -98,7 +85,7 @@ class DeviceActivity : DanCompatActivity() {
                                 Vehilytics.device = Device(deviceEmail, deviceName)
                             }
                             else -> {
-                                makeSnackText(getString(R.string.invalid_credentials))
+                                makeSnackText(getString(R.string.invalid_credentials), device_layout)
                             }
                         }
                         attach_device_button.isClickable = true
@@ -129,10 +116,10 @@ class DeviceActivity : DanCompatActivity() {
                                 device_name_text.text = deviceName
                             }
                             400 -> {
-                                makeSnackText(getString(R.string.invalid_device_name))
+                                makeSnackText(getString(R.string.invalid_device_name), device_layout)
                             }
                             else -> {
-                                makeSnackText(getString(R.string.error_occurred))
+                                makeSnackText(getString(R.string.error_occurred), device_layout)
                             }
                         }
                     }
@@ -155,7 +142,7 @@ class DeviceActivity : DanCompatActivity() {
                                 Vehilytics.clearDevice()
                             }
                             else -> {
-                                makeSnackText(getString(R.string.invalid_credentials))
+                                makeSnackText(getString(R.string.invalid_credentials), device_layout)
                             }
                         }
                     }

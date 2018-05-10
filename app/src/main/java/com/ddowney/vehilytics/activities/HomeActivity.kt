@@ -51,22 +51,9 @@ class HomeActivity : DanCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == UPDATE_PREFERENCES) {
             if (resultCode == Activity.RESULT_OK) {
-                makeSnackText("Preferences Saved")
+                makeSnackText("Preferences Saved", home_layout)
             }
         }
-    }
-
-    /**
-     * Creates a snackbar message that pops up from the bottom of
-     * the screen
-     *
-     * @param message: The message to be displayed
-     */
-    private fun makeSnackText(message: String) {
-        val snack = Snackbar.make(home_layout, message, Snackbar.LENGTH_LONG)
-        snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
-                .setTextColor(Color.WHITE)
-        snack.show()
     }
 
 }
