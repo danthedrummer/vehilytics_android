@@ -31,8 +31,8 @@ class VehicleActivity : DanCompatActivity() {
     private lateinit var vehicleSensorsAdapter: VehicleSensorsAdapter
     private var vehicleSensors: List<Sensor> = listOf()
 
-    private var warnings: List<String> = listOf("fuel_level")
-    private var errors: List<String> = listOf("temp")
+    private var warnings: List<String> = listOf()
+    private var errors: List<String> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

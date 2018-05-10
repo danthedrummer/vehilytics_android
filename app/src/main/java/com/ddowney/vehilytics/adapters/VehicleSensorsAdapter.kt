@@ -53,10 +53,10 @@ class VehicleSensorsAdapter(private val data: List<Sensor>, private val warnings
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindSensorModel(data[position])
-        if (data[position].shortname in warnings) {
-            holder.itemView.vehicle_sensor_warning.visibility = View.VISIBLE
-        } else if (data[position].shortname in errors) {
+        if (data[position].shortname in errors) {
             holder.itemView.vehicle_sensor_error.visibility = View.VISIBLE
+        } else if (data[position].shortname in warnings) {
+            holder.itemView.vehicle_sensor_warning.visibility = View.VISIBLE
         }
     }
 

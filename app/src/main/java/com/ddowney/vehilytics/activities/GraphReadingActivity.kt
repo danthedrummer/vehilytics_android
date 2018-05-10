@@ -3,6 +3,8 @@ package com.ddowney.vehilytics.activities
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.ddowney.vehilytics.R
 import com.ddowney.vehilytics.Vehilytics
@@ -12,6 +14,7 @@ import com.ddowney.vehilytics.models.Reading
 import com.ddowney.vehilytics.models.ReadingsResponse
 import com.ddowney.vehilytics.models.Sensor
 import com.ddowney.vehilytics.services.ServiceManager
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -35,6 +38,8 @@ class GraphReadingActivity : DanCompatActivity() {
     private lateinit var sensor: Sensor
 
     private var readings: List<Reading> = listOf()
+
+    private var loading = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +77,12 @@ class GraphReadingActivity : DanCompatActivity() {
                 super.onResponse(call, response)
                 readings = response?.body()?.readings ?: listOf()
                 readings_info.text = response?.body()?.info ?: "No info provided"
+
+                Log.d(LOG_TAG, "upper = ${response?.body()?.upperRange}")
+                Log.d(LOG_TAG, "lower = ${response?.body()?.lowerRange}")
                 populateGraph(response?.body()?.upperRange, response?.body()?.lowerRange)
                 displayMainContent()
+                loading = false
             }
         })
     }
@@ -139,6 +148,7 @@ class GraphReadingActivity : DanCompatActivity() {
         data.setValueTextSize(9f)
 
         readings_chart.clear()
+        readings_chart.animateX(400)
         readings_chart.data = data
         val description = Description()
         description.text = "${sensor.name} (${sensor.unit})"
@@ -154,5 +164,26 @@ class GraphReadingActivity : DanCompatActivity() {
         readings_chart.axisLeft.axisMinimum = min - ((max - min) / 2)
         readings_chart.axisRight.setDrawLabels(false)
         readings_chart.xAxis.setDrawLabels(false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.graph_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.graph_refresh_option -> {
+                if (!loading) {
+                    getReadingsForSensor()
+                    loading = true
+                }
+                true
+            }
+
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 }

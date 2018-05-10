@@ -35,4 +35,5 @@
     <string name="app_logo">App Logo</string>
     <string name="vehicle_sensor_status_indicator">Vehicle sensor status indicator</string>
     <string name="set_reminder">Set reminder:</string>
+    <string name="refresh_graph">Refresh Graph</string>
 </resources>
