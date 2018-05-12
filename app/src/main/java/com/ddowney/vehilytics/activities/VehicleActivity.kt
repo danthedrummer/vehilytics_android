@@ -84,6 +84,9 @@ class VehicleActivity : DanCompatActivity() {
                         vehicleSensors = response?.body()?.sensors ?: listOf()
                         warnings = response?.body()?.warnings ?: listOf()
                         errors = response?.body()?.errors ?: listOf()
+                        if (vehicleSensors.isEmpty()) {
+                            makeSnackText("No available data", vehicle_layout)
+                        }
                         displayMainContent()
                     }
                 })
